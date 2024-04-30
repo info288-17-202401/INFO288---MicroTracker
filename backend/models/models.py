@@ -3,7 +3,6 @@ from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
-
 class Ubication(Base):
     __tablename__ = 'ubication'
     id = Column(Integer, primary_key=True, nullable=False)
