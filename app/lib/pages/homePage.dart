@@ -1,8 +1,6 @@
 import "package:app/pages/mapPage.dart";
-import "package:app/providers/microProvider.dart";
 import "package:app/widgets/microDetailPanel.dart";
 import "package:flutter/material.dart";
-import "package:provider/provider.dart";
 import "package:sliding_up_panel/sliding_up_panel.dart";
 
 class HomePage extends StatefulWidget {

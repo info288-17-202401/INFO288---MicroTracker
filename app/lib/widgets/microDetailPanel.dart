@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:app/providers/microProvider.dart';
 import "package:provider/provider.dart";
-import "package:sliding_up_panel/sliding_up_panel.dart";
 
 class MicroDetailPanel extends StatefulWidget {
   const MicroDetailPanel({Key? key}) : super(key: key);
