@@ -1,8 +1,12 @@
 import 'package:app/pages/homePage.dart';
 import 'package:flutter/material.dart';
+import "package:provider/provider.dart";
+import "package:app/providers/microProvider.dart";
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => MicroProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
