@@ -4,6 +4,7 @@ import "package:latlong2/latlong.dart";
 import "package:app/models/microModel.dart";
 import "package:app/api/ubicationQuerys.dart";
 import 'package:app/providers/microProvider.dart';
+import "package:location/location.dart";
 import "package:provider/provider.dart";
 
 class MapPage extends StatefulWidget {
@@ -22,12 +23,22 @@ class _MapPageState extends State<MapPage> {
   double initialZoom = 16;
   List<int> linesSelected = [1];
   List<Micro> micros = [];
+  LatLng? _currentPosition;
+  Location location = Location();
 
   @override
   void initState() {
     super.initState();
+    getCurrentPosition();
     mapController = MapController();
     getMicrosPosition();
+    location.onLocationChanged.listen((LocationData newPosition) {
+      setState(() {
+        _currentPosition =
+            LatLng(newPosition.latitude!, newPosition.longitude!);
+      });
+      print("CURRENT POSITION CHANGED");
+    });
   }
 
   @override
@@ -41,6 +52,39 @@ class _MapPageState extends State<MapPage> {
       setState(() {
         micros = response;
       });
+    }
+  }
+
+  Future<LocationData> getLocation() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return Future.error("Error: Servicio de ubicación no habilitado.");
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return Future.error("Error: Permiso de ubicación denegado.");
+      }
+    }
+    return await location.getLocation();
+  }
+
+  void getCurrentPosition() async {
+    try {
+      LocationData xd = await getLocation();
+      setState(() {
+        _currentPosition = LatLng(xd.latitude!, xd.longitude!);
+      });
+    } catch (e) {
+      print("ERROR EN GETCURRENTPOSITION FUNCTION: $e");
     }
   }
 
@@ -61,6 +105,14 @@ class _MapPageState extends State<MapPage> {
               userAgentPackageName: 'dev.fleaflet.flutter_map.example',
             ),
             MarkerLayer(markers: [
+              _currentPosition == null
+                  ? Marker(
+                      point: initialCenter,
+                      child: Icon(Icons.location_city),
+                    )
+                  : Marker(
+                      point: _currentPosition!,
+                      child: Icon(Icons.location_city)),
               for (final micro in micros)
                 Marker(
                     width: 80.0,

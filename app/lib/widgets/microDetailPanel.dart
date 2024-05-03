@@ -6,7 +6,9 @@ import "package:provider/provider.dart";
 
 class MicroDetailPanel extends StatefulWidget {
   final Function closePanel;
-  const MicroDetailPanel({required this.closePanel, Key? key})
+  final Function setCurrentRoute;
+  const MicroDetailPanel(
+      {required this.setCurrentRoute, required this.closePanel, Key? key})
       : super(key: key);
 
   @override
@@ -14,13 +16,11 @@ class MicroDetailPanel extends StatefulWidget {
 }
 
 class _MicroDetailPanelState extends State<MicroDetailPanel> {
-  List<LatLng> route = [];
-  void getRoute(String id) async {
+  void showRoute(String id) async {
+    widget.closePanel();
     final response = await UbicationQuerys().getMicroRoute(id);
     if (response != null) {
-      setState(() {
-        route = response.route;
-      });
+      widget.setCurrentRoute(response.route);
     }
   }
 
@@ -48,12 +48,10 @@ class _MicroDetailPanelState extends State<MicroDetailPanel> {
           ),
           ElevatedButton(
               onPressed: () {
-                getRoute(Provider.of<MicroProvider>(context, listen: false)
+                showRoute(Provider.of<MicroProvider>(context, listen: false)
                     .currentMicro
                     .line
                     .toString());
-                context.read<MicroProvider>().setCurrentRoute(route);
-                widget.closePanel();
               },
               child: Text("Mostrar ruta"))
         ]),

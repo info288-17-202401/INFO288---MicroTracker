@@ -15,7 +15,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentPageIndex = 0;
+  List<LatLng> currentRoute = [];
   PanelController _panelController = new PanelController();
+
+  void setCurrentRoute(List<LatLng> route) {
+    setState(() {
+      currentRoute = route;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +32,13 @@ class _HomePageState extends State<HomePage> {
         closePanel: () {
           _panelController.close();
         },
+        setCurrentRoute: setCurrentRoute,
       ),
       body: MapPage(
-        openPanel: () {
-          _panelController.open();
-        },
-        route: Provider.of<MicroProvider>(context)
-            .currentRoute
-            .where((point) => point != null)
-            .cast<LatLng>()
-            .toList(),
-      ),
+          openPanel: () {
+            _panelController.open();
+          },
+          route: currentRoute),
       maxHeight: MediaQuery.of(context).size.height * 0.7,
       minHeight: MediaQuery.of(context).size.height * 0.03,
       color: Colors.transparent,
