@@ -1,9 +1,18 @@
 ## Despliegue backend desarrollo
-Ir a backend/databases y ejecutar el siguiente comando para levantar los servicios de bd
+Ejecutar el siguiente comando para levantar los servicios de bd
+en la carpeta databases
 ```
 docker compose up -d
 ```
-luego ejecutar desde la carpeta backend
+pgadmin esta en el localhost:8000
+Para ejecutar el contenedor de la api del CRUD se utilizando docker compose up en la carpeta CRUD
 ```
-python3 databases/createdatabases.py core
+docker compose up -d
+```
+Utilizando solo el dockerfile
+```
+docker build -t crud -f Dockerfile.crud .  
+```
+```
+docker run -v .:/app --name crud -p 4000:4000 crud 
 ```
