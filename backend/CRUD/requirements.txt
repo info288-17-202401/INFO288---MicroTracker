@@ -1,0 +1,6 @@
+fastapi
+sqlalchemy
+pydantic
+geoalchemy2
+uvicorn
+pydantic_settings

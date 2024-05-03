@@ -47,13 +47,3 @@ def getJsonFilesFromFolder():
     else:
         print("Execute using ./main.py <json_folder>")
         sys.exit(1)
-
-def SQLALCHEMY_DATABASE_URL(user, password, server, port, db) -> PostgresDsn:
-        return PostgresDsn.build(
-            scheme="postgresql+psycopg2",
-            username=user,
-            password=password,
-            host=server,
-            port=port,
-            path=db,
-        )

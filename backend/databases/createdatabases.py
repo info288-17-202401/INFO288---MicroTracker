@@ -5,7 +5,7 @@ from sqlalchemy_utils import create_database, database_exists
 import sys
 sys.path.append(".")
 from core import getJsonFile, getJsonFilesFromFolder, SQLALCHEMY_DATABASE_URL
-from models.models import Base
+from CRUD.app.models.models import Base
 
 
 def addToDB(db, data):
