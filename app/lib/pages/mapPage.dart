@@ -7,8 +7,10 @@ import 'package:app/providers/microProvider.dart';
 import "package:provider/provider.dart";
 
 class MapPage extends StatefulWidget {
+  final List<LatLng> route;
   final Function openPanel;
-  const MapPage({required this.openPanel, Key? key}) : super(key: key);
+  const MapPage({required this.route, required this.openPanel, Key? key})
+      : super(key: key);
 
   @override
   _MapPageState createState() => _MapPageState();
@@ -79,6 +81,13 @@ class _MapPageState extends State<MapPage> {
                       },
                       iconSize: 80,
                     )),
+            ]),
+            PolylineLayer(polylines: [
+              Polyline(
+                color: Colors.blue,
+                strokeWidth: 8.0,
+                points: widget.route,
+              )
             ])
           ],
         ),

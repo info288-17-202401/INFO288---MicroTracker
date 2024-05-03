@@ -1,15 +1,29 @@
+import "package:app/api/ubicationQuerys.dart";
 import "package:flutter/material.dart";
 import 'package:app/providers/microProvider.dart';
+import "package:latlong2/latlong.dart";
 import "package:provider/provider.dart";
 
 class MicroDetailPanel extends StatefulWidget {
-  const MicroDetailPanel({Key? key}) : super(key: key);
+  final Function closePanel;
+  const MicroDetailPanel({required this.closePanel, Key? key})
+      : super(key: key);
 
   @override
   _MicroDetailPanelState createState() => _MicroDetailPanelState();
 }
 
 class _MicroDetailPanelState extends State<MicroDetailPanel> {
+  List<LatLng> route = [];
+  void getRoute(String id) async {
+    final response = await UbicationQuerys().getMicroRoute(id);
+    if (response != null) {
+      setState(() {
+        route = response.route;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +45,17 @@ class _MicroDetailPanelState extends State<MicroDetailPanel> {
                 ],
               )
             ],
-          )
+          ),
+          ElevatedButton(
+              onPressed: () {
+                getRoute(Provider.of<MicroProvider>(context, listen: false)
+                    .currentMicro
+                    .line
+                    .toString());
+                context.read<MicroProvider>().setCurrentRoute(route);
+                widget.closePanel();
+              },
+              child: Text("Mostrar ruta"))
         ]),
       ),
     );

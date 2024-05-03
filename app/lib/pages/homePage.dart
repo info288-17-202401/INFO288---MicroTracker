@@ -1,6 +1,9 @@
 import "package:app/pages/mapPage.dart";
+import "package:app/providers/microProvider.dart";
 import "package:app/widgets/microDetailPanel.dart";
 import "package:flutter/material.dart";
+import "package:latlong2/latlong.dart";
+import "package:provider/provider.dart";
 import "package:sliding_up_panel/sliding_up_panel.dart";
 
 class HomePage extends StatefulWidget {
@@ -18,11 +21,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SlidingUpPanel(
       controller: _panelController,
-      panel: MicroDetailPanel(),
+      panel: MicroDetailPanel(
+        closePanel: () {
+          _panelController.close();
+        },
+      ),
       body: MapPage(
         openPanel: () {
           _panelController.open();
         },
+        route: Provider.of<MicroProvider>(context)
+            .currentRoute
+            .where((point) => point != null)
+            .cast<LatLng>()
+            .toList(),
       ),
       maxHeight: MediaQuery.of(context).size.height * 0.7,
       minHeight: MediaQuery.of(context).size.height * 0.03,
