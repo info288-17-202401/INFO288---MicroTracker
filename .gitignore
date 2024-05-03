@@ -1,1 +1,4 @@
 __pycache__
+_node_modules
+.vscode
+Api-prueba-INFO288/_node_modules

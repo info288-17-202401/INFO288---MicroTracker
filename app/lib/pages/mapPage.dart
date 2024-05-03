@@ -38,6 +38,7 @@ class _MapPageState extends State<MapPage> {
             LatLng(newPosition.latitude!, newPosition.longitude!);
       });
       print("CURRENT POSITION CHANGED");
+      getMicrosPosition();
     });
   }
 
