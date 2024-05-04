@@ -1,4 +1,5 @@
 CREATE DATABASE db_linea;
+\c db_linea
 
 CREATE TABLE line (
     number INTEGER PRIMARY KEY,

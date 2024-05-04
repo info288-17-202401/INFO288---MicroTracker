@@ -1,11 +1,11 @@
 version: "3.8"
 
-crud:
+api:
   build:
     context: .
-    dockerfile: Dockerfile.crud
+    dockerfile: Dockerfile.api
   restart: always
   ports:
-    - "4000:4000"
+    - "5000:5000"
   volumes:
     - .:/app

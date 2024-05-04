@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get('/')
 def index():
-    return {'message': 'Hello World, Im the CRUD',
+    return {'message': 'Hello World, Im the api',
             'description': "LA TIPICA"}
 
 api_router = APIRouter()
