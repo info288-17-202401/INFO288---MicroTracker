@@ -8,13 +8,13 @@ CREATE TABLE line (
 
 CREATE TABLE brand (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR NOT NULL
+    name VARCHAR NOT NULL
 );
 
 CREATE TABLE model (
     id SERIAL PRIMARY KEY,
-    año INTEGER NOT NULL,
-    nombre VARCHAR NOT NULL,
+    year INTEGER NOT NULL,
+    name VARCHAR NOT NULL,
     id_marca_fk INTEGER NOT NULL,
     FOREIGN KEY (id_marca_fk) REFERENCES brand(id)
 );
@@ -23,20 +23,20 @@ CREATE TABLE route (
     id SERIAL PRIMARY KEY,
     number INTEGER NOT NULL,
     date DATE NOT NULL,
-    actual BOOLEAN NOT NULL
+    currently BOOLEAN NOT NULL
 );
 
 CREATE TABLE sector (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR NOT NULL
+    name VARCHAR NOT NULL
 );
 
 CREATE TABLE microbus (
     patent VARCHAR PRIMARY KEY,
-    linea_id INTEGER NOT NULL,
-    marca_id INTEGER NOT NULL,
-    FOREIGN KEY (linea_id) REFERENCES line(number),
-    FOREIGN KEY (marca_id) REFERENCES brand(id)
+    line_id INTEGER NOT NULL,
+    brand_id INTEGER NOT NULL,
+    FOREIGN KEY (line_id) REFERENCES line(number),
+    FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
 CREATE TABLE ubication (
@@ -44,7 +44,7 @@ CREATE TABLE ubication (
     micro_patent VARCHAR NOT NULL,
     date DATE NOT NULL,
     coordinates POINT NOT NULL,
-    actual BOOLEAN NOT NULL,
+    currently BOOLEAN NOT NULL,
     FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
 );
 
@@ -53,7 +53,7 @@ CREATE TABLE passengers (
     micro_patent VARCHAR NOT NULL,
     number INTEGER NOT NULL,
     date DATE NOT NULL,
-    actual BOOLEAN NOT NULL,
+    currently BOOLEAN NOT NULL,
     FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
 );
 
@@ -66,9 +66,9 @@ CREATE TABLE bus_stop (
 
 CREATE TABLE prediction_log_velocity (
     id SERIAL PRIMARY KEY,
-    velocidad FLOAT NOT NULL,
+    velocity FLOAT NOT NULL,
     date DATE NOT NULL,
     id_micro_fk VARCHAR NOT NULL,
-    actual BOOLEAN NOT NULL,
+    currently BOOLEAN NOT NULL,
     FOREIGN KEY (id_micro_fk) REFERENCES microbus(patent)
 );
