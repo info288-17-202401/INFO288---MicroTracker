@@ -13,8 +13,8 @@ class UbicationSerialized(BaseModel):
 
 class MicrobusSerialized(BaseModel):
     patent: str
-    linea_id: str
-    marca_id: str
+    linea_id: int
+    marca_id: int
 
     class Config:
         from_attributes = True

@@ -3,4 +3,5 @@ COPY . ./app
 RUN pip install --no-cache-dir --upgrade -r app/requirements.txt
 WORKDIR /app
 EXPOSE 4000
+RUN python /app/create_databases.py 
 CMD python main.py

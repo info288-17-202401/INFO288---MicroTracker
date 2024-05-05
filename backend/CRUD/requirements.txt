@@ -1,6 +1,8 @@
 fastapi
 sqlalchemy
+sqlalchemy_utils
 pydantic
 geoalchemy2
 uvicorn
 pydantic_settings
+psycopg2
