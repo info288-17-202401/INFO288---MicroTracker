@@ -23,7 +23,7 @@ def get_microbuses() -> Any:
         microbus = session.query(Microbus).all()
         # return microbus
     except Exception as e:
-        raise HTTPException(status_code=404, msg="Can't connect to databases", detail=e)
+        raise HTTPException(status_code=404, detail="Can't connect to databases")
     finally:
         session.close()
     return microbus

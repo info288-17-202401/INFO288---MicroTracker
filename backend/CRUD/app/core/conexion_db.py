@@ -1,6 +1,6 @@
 # from sqlalchemy.orm import declarative_base
 from sqlalchemy import create_engine
-from app.models.models import Base
+# from app.models.models import Base
 from app.core.Settings import settings
 
 # settings = Settings()

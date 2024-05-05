@@ -14,7 +14,7 @@ def index():
     return {'message': 'Hello World, Im the CRUD',
             'description': 'ALL OK!'}
 
-@app.get('/DB')
+@app.get('/db')
 def index():
     try:
         SessionLocal = sessionmaker(bind=engine)

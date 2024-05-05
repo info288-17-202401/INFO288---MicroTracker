@@ -1,30 +1,14 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, declarative_base
-from sqlalchemy_utils import create_database, database_exists
-# from random import randint
+
 import sys
 sys.path.append(".")
-# from core import getJsonFile, getJsonFilesFromFolder, SQLALCHEMY_DATABASE_URL
 from models.models import Microbus, Line, Brand
-# from pydantic import (
-#     PostgresDsn,
-#     # computed_field,
-# )
-from core.Settings import settings 
-
-# def SQLALCHEMY_DATABASE_URL(user, password, server, port, db) -> PostgresDsn:
-#         return PostgresDsn.build(
-#             scheme="postgresql+psycopg2",
-#             username=user,
-#             password=password,
-#             host=server,
-#             port=port,
-#             path=db,
-#         )
+from core.conexion_db import engine
 
 try:
     # DATABASE_URL = SQLALCHEMY_DATABASE_URL("postgres", "postgres", "databases-postgres-1", 5432, "db_linea")
-    engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URL))
+    # engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URL))
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     session = SessionLocal()
     print(f"Sesion iniciada")

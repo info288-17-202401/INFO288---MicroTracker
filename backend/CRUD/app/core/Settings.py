@@ -1,7 +1,12 @@
-from typing import Annotated, Any, Literal, Dict
+from typing import (
+    # Annotated, 
+    Any, 
+    # Literal, 
+    # Dict
+    )
 from pydantic import (
     PostgresDsn,
-    computed_field,
+    # computed_field,
 )
 from pydantic_settings import SettingsConfigDict, BaseSettings
 from dotenv import load_dotenv
@@ -49,5 +54,5 @@ class Settings(BaseSettings):
     
     def __repr__(self) -> str:
         return f"Settings({self.dict()})"
-
+    
 settings = Settings() 
