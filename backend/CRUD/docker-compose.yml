@@ -1,11 +1,16 @@
 version: "3.8"
-
-crud:
-  build:
-    context: .
-    dockerfile: Dockerfile.crud
-  restart: always
-  ports:
-    - "4000:4000"
-  volumes:
-    - .:/app
+services:
+  crud:
+    build:
+      context: .
+      dockerfile: Dockerfile.crud
+    restart: always
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+    networks:
+      - connection_dockers
+networks:
+  connection_dockers:
+    external: true

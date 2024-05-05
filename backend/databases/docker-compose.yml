@@ -14,6 +14,7 @@ services:
       - .env
     networks:
       - default
+      - connection_dockers
 
   pgadmin:
     image: dpage/pgadmin4
@@ -28,3 +29,5 @@ services:
 networks:
   default:
     driver: bridge
+  connection_dockers:
+    external: true
