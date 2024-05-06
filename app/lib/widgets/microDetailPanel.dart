@@ -19,42 +19,46 @@ class _MicroDetailPanelState extends State<MicroDetailPanel> {
   void showRoute(String id) async {
     widget.closePanel();
     final response = await UbicationQuerys().getMicroRoute(id);
-    if (response != null) {
-      widget.setCurrentRoute(response.route);
-    }
+    widget.setCurrentRoute(response.route);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(50))),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.7),
+        border: Border.all(color: Colors.black, width: 2),
+        borderRadius: BorderRadius.all(Radius.circular(50)),
+      ),
       margin: EdgeInsets.only(left: 20, right: 20, bottom: 40),
-      child: Center(
-        child: Column(children: [
-          Text("MicroDetail"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text("Image"),
-              Column(
-                children: [
-                  Text(context.watch<MicroProvider>().currentMicro.patent),
-                  Text("Line")
-                ],
-              )
-            ],
-          ),
-          ElevatedButton(
-              onPressed: () {
-                showRoute(Provider.of<MicroProvider>(context, listen: false)
-                    .currentMicro
-                    .line
-                    .toString());
-              },
-              child: Text("Mostrar ruta"))
-        ]),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Image.asset(
+                    "assets/${context.watch<MicroProvider>().currentMicro.line}.png",
+                    scale: 1.6),
+                Column(
+                  children: [
+                    Text(context.watch<MicroProvider>().currentMicro.patent),
+                    Text("Line")
+                  ],
+                )
+              ],
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  showRoute(Provider.of<MicroProvider>(context, listen: false)
+                      .currentMicro
+                      .line
+                      .toString());
+                },
+                child: Text("Mostrar ruta"))
+          ]),
+        ),
       ),
     );
   }

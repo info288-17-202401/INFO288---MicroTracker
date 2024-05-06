@@ -6,6 +6,7 @@ import "package:app/api/ubicationQuerys.dart";
 import 'package:app/providers/microProvider.dart';
 import "package:location/location.dart";
 import "package:provider/provider.dart";
+import "package:app/library/animated_map_controller.dart";
 
 class MapPage extends StatefulWidget {
   final List<LatLng> route;
@@ -17,8 +18,8 @@ class MapPage extends StatefulWidget {
   _MapPageState createState() => _MapPageState();
 }
 
-class _MapPageState extends State<MapPage> {
-  late MapController mapController;
+class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
+  late final _animatedMapController = AnimatedMapController(vsync: this);
   LatLng initialCenter = LatLng(-39.819955, -73.241229);
   double initialZoom = 16;
   List<int> linesSelected = [1];
@@ -30,7 +31,6 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
     getCurrentPosition();
-    mapController = MapController();
     getMicrosPosition();
     location.onLocationChanged.listen((LocationData newPosition) {
       setState(() {
@@ -95,7 +95,7 @@ class _MapPageState extends State<MapPage> {
       height: MediaQuery.of(context).size.height,
       child: Stack(children: [
         FlutterMap(
-          mapController: mapController,
+          mapController: _animatedMapController.mapController,
           options: MapOptions(
             initialCenter: initialCenter,
             initialZoom: initialZoom,
@@ -120,19 +120,14 @@ class _MapPageState extends State<MapPage> {
                     height: 80.0,
                     point: micro.currentPosition!,
                     key: Key(micro.id.toString()),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.fire_truck,
-                        color: context.watch<MicroProvider>().currentMicro.id ==
-                                micro.id
-                            ? Colors.red
-                            : Colors.blue,
-                      ),
-                      onPressed: () {
+                    child: GestureDetector(
+                      onTap: () {
                         context.read<MicroProvider>().setCurrentMicro(micro);
                         widget.openPanel();
+                        _animatedMapController.animateTo(
+                            dest: micro.currentPosition!, zoom: initialZoom);
                       },
-                      iconSize: 80,
+                      child: Image.asset("assets/${micro.line}.png"),
                     )),
             ]),
             PolylineLayer(polylines: [
