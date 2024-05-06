@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
             _panelController.open();
           },
           route: currentRoute),
-      maxHeight: MediaQuery.of(context).size.height * 0.7,
+      maxHeight: MediaQuery.of(context).size.height * 0.4,
       minHeight: MediaQuery.of(context).size.height * 0.03,
       color: Colors.transparent,
       renderPanelSheet: false,

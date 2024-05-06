@@ -105,6 +105,13 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               userAgentPackageName: 'dev.fleaflet.flutter_map.example',
             ),
+            PolylineLayer(polylines: [
+              Polyline(
+                color: Colors.blue,
+                strokeWidth: 8.0,
+                points: widget.route,
+              )
+            ]),
             MarkerLayer(markers: [
               _currentPosition == null
                   ? Marker(
@@ -130,15 +137,23 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                       child: Image.asset("assets/${micro.line}.png"),
                     )),
             ]),
-            PolylineLayer(polylines: [
-              Polyline(
-                color: Colors.blue,
-                strokeWidth: 8.0,
-                points: widget.route,
-              )
-            ])
           ],
         ),
+        Positioned(
+            bottom: 20,
+            right: 20,
+            child: Column(
+              children: [
+                IconButton(
+                  color: Colors.blue,
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.gps_fixed,
+                    size: 50,
+                  ),
+                )
+              ],
+            ))
       ]),
     );
   }

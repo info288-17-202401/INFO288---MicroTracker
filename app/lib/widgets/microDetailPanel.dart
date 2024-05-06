@@ -34,30 +34,79 @@ class _MicroDetailPanelState extends State<MicroDetailPanel> {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Center(
-          child: Column(children: [
-            Row(
+          child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Image.asset(
-                    "assets/${context.watch<MicroProvider>().currentMicro.line}.png",
-                    scale: 1.6),
-                Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(context.watch<MicroProvider>().currentMicro.patent),
-                    Text("Line")
+                    Image.asset(
+                        "assets/${context.watch<MicroProvider>().currentMicro.line}.png",
+                        scale: 1.6),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.watch<MicroProvider>().currentMicro.patent,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 25,
+                              inherit: false,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Line: ${context.watch<MicroProvider>().currentMicro.line}",
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 30,
+                              inherit: false),
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              showRoute(Provider.of<MicroProvider>(context,
+                                      listen: false)
+                                  .currentMicro
+                                  .line
+                                  .toString());
+                            },
+                            child: Text("Mostrar ruta"))
+                      ],
+                    )
                   ],
-                )
-              ],
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  showRoute(Provider.of<MicroProvider>(context, listen: false)
-                      .currentMicro
-                      .line
-                      .toString());
-                },
-                child: Text("Mostrar ruta"))
-          ]),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Image.asset("assets/passenger.png", scale: 1.6),
+                    Text(
+                      "Pasajeros: ",
+                      style: const TextStyle(
+                          color: Colors.black, fontSize: 20, inherit: false),
+                    ),
+                    Text(
+                      "0",
+                      style: const TextStyle(
+                          color: Colors.black, fontSize: 20, inherit: false),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Image.asset("assets/speedometer.png", scale: 1.6),
+                    Text(
+                      "Velocidad \nPromedio: ",
+                      style: const TextStyle(
+                          color: Colors.black, fontSize: 20, inherit: false),
+                    ),
+                    Text(
+                      "0",
+                      style: const TextStyle(
+                          color: Colors.black, fontSize: 20, inherit: false),
+                    )
+                  ],
+                ),
+              ]),
         ),
       ),
     );
