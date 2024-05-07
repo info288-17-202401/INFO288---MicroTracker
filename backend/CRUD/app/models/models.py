@@ -62,7 +62,7 @@ class Ubication(Base):
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     micro_patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
     date = Column(Date, nullable=False)
-    coordinates = Column(Geometry("POINT"), nullable=False)
+    coordinates = Column(Geometry(geometry_type="POINT"), nullable=False)
     currently = Column(Boolean, nullable=False)
 
     def __repr__(self):
@@ -82,7 +82,7 @@ class Passengers(Base):
 class BusStop(Base):
     __tablename__ = 'bus_stop'
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    coordinates = Column(Geometry("POINT"), nullable=False)
+    coordinates = Column(Geometry(geometry_type="POINT"), nullable=False)
     route_id = Column(Integer, ForeignKey('route.id'), nullable=False)
 
     def __repr__(self):

@@ -1,7 +1,13 @@
 FROM python:3.12.2
 COPY . ./app
 RUN pip install --no-cache-dir --upgrade -r app/requirements.txt
+
+
 WORKDIR /app
 EXPOSE 4000
+# Guarda la salida de pip freeze en un archivo
+RUN pip freeze > installed_packages.txt
+# Muestra el contenido del archivo installed_packages.txt
+RUN cat installed_packages.txt
 # RUN python /app/app/create_databases.py 
 CMD python main.py

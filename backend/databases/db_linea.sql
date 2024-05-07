@@ -1,4 +1,12 @@
-CREATE DATABASE db_linea;
+
+CREATE DATABASE db_linea WITH  TABLESPACE = pg_default IS_TEMPLATE = False;
+\c db_linea
+
+CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis_topology;
+\c db_linea
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
+CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 \c db_linea
 
 CREATE TABLE line (
