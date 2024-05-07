@@ -16,11 +16,30 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPageIndex = 0;
   List<LatLng> currentRoute = [];
+  List<int> linesSelected = [1];
+  List<int> lines = [];
   PanelController _panelController = new PanelController();
+
+  void initState() {
+    super.initState();
+    //TODO: Add totalLines to the global variable
+    setState(() {
+      lines = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    });
+    setState(() {
+      linesSelected = [lines[0]];
+    });
+  }
 
   void setCurrentRoute(List<LatLng> route) {
     setState(() {
       currentRoute = route;
+    });
+  }
+
+  void setLinesSelected(List<int> lines) {
+    setState(() {
+      linesSelected = lines;
     });
   }
 
@@ -35,6 +54,9 @@ class _HomePageState extends State<HomePage> {
         setCurrentRoute: setCurrentRoute,
       ),
       body: MapPage(
+          lines: lines,
+          setLines: setLinesSelected,
+          linesSelected: linesSelected,
           openPanel: () {
             _panelController.open();
           },

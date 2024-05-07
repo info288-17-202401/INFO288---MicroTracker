@@ -1,3 +1,5 @@
+import "package:app/widgets/lineList.dart";
+import "package:app/widgets/mapButton.dart";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
 import "package:latlong2/latlong.dart";
@@ -11,7 +13,16 @@ import "package:app/library/animated_map_controller.dart";
 class MapPage extends StatefulWidget {
   final List<LatLng> route;
   final Function openPanel;
-  const MapPage({required this.route, required this.openPanel, Key? key})
+  final List<int> linesSelected;
+  final Function setLines;
+  final List<int> lines;
+  const MapPage(
+      {required this.lines,
+      required this.setLines,
+      required this.linesSelected,
+      required this.route,
+      required this.openPanel,
+      Key? key})
       : super(key: key);
 
   @override
@@ -20,9 +31,9 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   late final _animatedMapController = AnimatedMapController(vsync: this);
+  bool showLines = false;
   LatLng initialCenter = LatLng(-39.819955, -73.241229);
   double initialZoom = 16;
-  List<int> linesSelected = [1];
   List<Micro> micros = [];
   LatLng? _currentPosition;
   Location location = Location();
@@ -51,9 +62,14 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     final response = await UbicationQuerys().getMicrosCurrentPosition();
     if (response != null) {
       setState(() {
-        micros = response;
+        micros = response
+            .where((micro) => widget.linesSelected.contains(micro.line))
+            .toList();
       });
     }
+    print(response
+        .where((micro) => widget.linesSelected.contains(micro.line))
+        .toList());
   }
 
   Future<LocationData> getLocation() async {
@@ -116,11 +132,17 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
               _currentPosition == null
                   ? Marker(
                       point: initialCenter,
-                      child: Icon(Icons.location_city),
+                      child: Icon(Icons.person_pin_circle),
                     )
                   : Marker(
                       point: _currentPosition!,
-                      child: Icon(Icons.location_city)),
+                      alignment: const Alignment(-0.5, -2),
+                      child: Icon(
+                        Icons.person_pin_circle,
+                        color: Colors.blue,
+                        size: 50,
+                      ),
+                    ),
               for (final micro in micros)
                 Marker(
                     width: 80.0,
@@ -139,19 +161,31 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
             ]),
           ],
         ),
+        showLines
+            ? LineList(
+                lines: widget.lines,
+                setLines: widget.setLines,
+                linesSelected: widget.linesSelected,
+              )
+            : SizedBox.shrink(),
         Positioned(
-            bottom: 20,
+            bottom: MediaQuery.of(context).size.height * 0.1,
             right: 20,
             child: Column(
               children: [
-                IconButton(
-                  color: Colors.blue,
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.gps_fixed,
-                    size: 50,
-                  ),
-                )
+                MapButton(
+                    icon: Icon(Icons.line_style),
+                    onClick: () {
+                      setState(() {
+                        showLines = !showLines;
+                      });
+                    }),
+                MapButton(
+                    icon: Icon(Icons.gps_fixed),
+                    onClick: () {
+                      _animatedMapController.animateTo(
+                          dest: _currentPosition!, zoom: initialZoom);
+                    })
               ],
             ))
       ]),
