@@ -67,9 +67,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
             .toList();
       });
     }
-    print(response
-        .where((micro) => widget.linesSelected.contains(micro.line))
-        .toList());
+    print("MICROS UPDATED");
   }
 
   Future<LocationData> getLocation() async {
@@ -163,9 +161,15 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
         ),
         showLines
             ? LineList(
+                updateLines: getMicrosPosition,
                 lines: widget.lines,
                 setLines: widget.setLines,
                 linesSelected: widget.linesSelected,
+                closePanel: () {
+                  setState(() {
+                    showLines = false;
+                  });
+                },
               )
             : SizedBox.shrink(),
         Positioned(

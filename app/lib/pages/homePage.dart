@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     //TODO: Add totalLines to the global variable
+    //TODO: Get lines from the DB
     setState(() {
       lines = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     });
