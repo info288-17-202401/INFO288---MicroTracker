@@ -1,21 +1,36 @@
 from fastapi import FastAPI
-from fastapi import APIRouter
-# from main_routes import api_router
-
+from app.routes.app_routes import api_router
+from app.core.conexion_db import engine 
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import text
 
 app = FastAPI()
 
 @app.get('/')
 def index():
-    return {'message': 'Hello World, Im the api',
+    return {'message': 'Hello World, Im the Api',
+            'description': 'ALL OK!'}
+
+@app.get('/db')
+def index():
+    try:
+        SessionLocal = sessionmaker(bind=engine)
+        session = SessionLocal()
+        got = session.execute(text("SELECT 1"))
+    except Exception as e:
+        return {
+            'message': 'Cant connect to db',
+            'description': str(e)
+        }
+    finally:
+        session.close()
+    return {'message': 'Hello World, Im the Api',
+            'description': f'DB connected!'}
+
+@app.get('/hello')
+def index():
+    return {'message': 'Hello World, Im the Api',
             'description': "LA TIPICA"}
 
-api_router = APIRouter()
-
-
-
-# api_router.include_router(typedocument.router, prefix="/typedocument", tags=["typedocument"])
-# api_router.include_router(author.router, prefix="/authors", tags=["authors"])
-# api_router.include_router(document.router, prefix="/documents", tags=["documents"])
 
 app.include_router(api_router)

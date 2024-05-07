@@ -1,2 +1,3 @@
 FROM postgis/postgis
 COPY ./db_linea.sql /docker-entrypoint-initdb.d/
+COPY ./db_sensor.sql /docker-entrypoint-initdb.d/

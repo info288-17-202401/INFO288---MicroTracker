@@ -9,3 +9,8 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
+    networks:
+      - connection_dockers
+networks:
+  connection_dockers:
+    external: true

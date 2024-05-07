@@ -51,7 +51,7 @@ CREATE TABLE ubication (
     id SERIAL PRIMARY KEY,
     micro_patent VARCHAR NOT NULL,
     date DATE NOT NULL,
-    coordinates POINT NOT NULL,
+    coordinates GEOMETRY(POINT) NOT NULL,
     currently BOOLEAN NOT NULL,
     FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
 );
@@ -67,7 +67,7 @@ CREATE TABLE passengers (
 
 CREATE TABLE bus_stop (
     id SERIAL PRIMARY KEY,
-    coordinates POINT NOT NULL,
+    coordinates GEOMETRY(POINT) NOT NULL,
     id_ruta_fk INTEGER NOT NULL,
     FOREIGN KEY (id_ruta_fk) REFERENCES route(id)
 );

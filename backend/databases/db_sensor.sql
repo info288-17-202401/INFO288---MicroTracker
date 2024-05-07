@@ -11,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 
 
 CREATE TABLE microbus (
-    patent VARCHAR PRIMARY KEY,
+    patent VARCHAR PRIMARY KEY
 );
 
 CREATE TABLE ubication (

@@ -25,7 +25,7 @@ def index():
     finally:
         session.close()
     return {'message': 'Hello World, Im the CRUD',
-            'description': f'DB connected! query:{got}'}
+            'description': f'DB connected!'}
 
 @app.get('/hello')
 def index():
