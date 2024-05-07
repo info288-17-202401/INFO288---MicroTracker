@@ -5,8 +5,7 @@ import "package:dio/dio.dart";
 class UbicationQuerys {
   final dio = Dio();
   Future<List<Micro>> getMicrosCurrentPosition() async {
-    final response =
-        await dio.get("https://6633fb4f9bb0df2359a075b6.mockapi.io/api/micros");
+    final response = await dio.get("http://10.0.2.2:3000");
     return Micro.fromJsonList(response.data);
   }
 
