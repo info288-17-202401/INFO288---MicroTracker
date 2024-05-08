@@ -3,24 +3,29 @@ from typing import (Any,
                     List)
 from app.core.conexion_db import engine
 from sqlalchemy.orm import sessionmaker
-from fastapi import APIRouter, HTTPException
+from fastapi import (APIRouter, 
+                     HTTPException, 
+                     Query)
 from sqlalchemy import text
 from app.models.serialized_models import UbicationSerialized, Point #Como retorna la api
 from app.models.models import Ubication #Obtiene desde la BD
-# from shapely.geometry import Point as ShapelyPoint
-from geoalchemy2.elements import WKTElement
-
+import sys
+# printstd = sys.stdout.write
+# from geoalchemy2.elements import WKTElement
 router = APIRouter()
 
 @router.get("/", response_model=List[UbicationSerialized], status_code=200)
-def get_ubications() -> Any:
+def get_ubications(patent: str | None = Query(None)) -> Any:
     """
-    Retrieve ubications.
+    Retrieve items.
     """
     try:
         SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
-        ubications = session.query(Ubication).all()
+        if patent:
+            ubications = session.query(Ubication).filter(Ubication.micro_patent == patent).all()
+        else:
+            ubications = session.query(Ubication).all()
         return ubications
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
@@ -30,36 +35,31 @@ def get_ubications() -> Any:
 
 # @router.get("/{id}", response_model=UbicationSerialized, status_code=200)
 
-@router.get("/{id}", response_model=UbicationSerialized, status_code=200)
-def get_ubication(id: int) -> Any:
+@router.get("/{patent}", response_model=UbicationSerialized, status_code=200)
+def get_ubication(patent: str) -> Any:
     """
-    Get ubication by ID.
+    Get last ubication of microbus by patent.
     """
     try:
         SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
-        ubication = session.query(Ubication).filter(Ubication.id == id).first()
+        ubication = session.query(Ubication).filter(Ubication.micro_patent == patent and Ubication.currently == True).first()
+        # print(ubication)
         if not ubication:
             raise HTTPException(status_code=404, detail="Item not found")
-        
-
         return ubication
     finally:
         session.close()
 
 
-
 @router.post("/", response_model=Any, status_code=201)
 def create_ubication(ubication: UbicationSerialized) -> Any:
     """
-    Create ubication by ID.
+    Create ubication.
     """
     try:
         SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
-
-        # Create a WKTElement representing the point
-        # coordinates_wkt = WKTElement(f"Point({ubication.coordinates.x} , {ubication.coordinates.y})", srid=4326)
         ubication = session.add(Ubication(
             micro_patent=ubication.micro_patent,
             date=ubication.date,
@@ -72,6 +72,3 @@ def create_ubication(ubication: UbicationSerialized) -> Any:
         raise HTTPException(status_code=404, detail=f"Cant add item \n {str(e)}")
     finally:
         session.close()
-
-
-

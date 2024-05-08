@@ -19,12 +19,8 @@ class UbicationSerialized(BaseModel):
         
 class MicrobusSerialized(BaseModel):
     patent: str
-
     class Config:
         from_attributes = True
-
-
-
 
 
 class PassengersSerialized(BaseModel):
@@ -42,7 +38,7 @@ class VelocitySerialized(BaseModel):
     id: int
     velocity: float
     date: str
-    micro_patent: int
+    micro_patent: str
     currently: bool
 
     class Config:

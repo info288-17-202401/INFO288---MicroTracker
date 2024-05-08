@@ -3,6 +3,7 @@ sqlalchemy
 sqlalchemy_utils
 pydantic
 geoalchemy2
+geoalchemy2[shapely]
 uvicorn
 pydantic_settings
 psycopg2
