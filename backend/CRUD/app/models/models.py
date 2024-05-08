@@ -16,7 +16,7 @@ class Ubication(Base):
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     micro_patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
     date = Column(Date, nullable=False)
-    coordinates = Column(Geometry(geometry_type="POINT"), nullable=False)
+    coordinates = Column(Geometry('POINT', srid=4326), nullable=False)  # Use 'POINT' instead of 'POINT' and '4326' instead of 4326
     currently = Column(Boolean, nullable=False)
 
     def __repr__(self):

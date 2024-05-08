@@ -4,7 +4,9 @@ from typing import (Any,
 from app.core.conexion_db import engine
 from sqlalchemy.orm import sessionmaker
 # from sqlalchemy import create_engine
-from fastapi import APIRouter, HTTPException
+from fastapi import (APIRouter, 
+                     HTTPException, 
+                     Query)
 
 from app.models.serialized_models import MicrobusSerialized
 from app.models.models import Microbus
@@ -13,14 +15,17 @@ from app.models.models import Microbus
 # Obtener el objeto logger para tu aplicación
 router = APIRouter()
 @router.get("/", response_model=List[MicrobusSerialized], status_code=200)
-def get_microbuses() -> Any:
+def get_microbuses(id_line: int | None = Query(None)) -> Any:
     """
-    Retrieve items.
+    Retrieve all microbuses from line, if there's no id line, get all the microbuses.
     """
     try:
         SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
-        microbus = session.query(Microbus).all()
+        if id_line:
+            microbus = session.query(Microbus).filter(Microbus.line_id == id_line).all()
+        else:
+            microbus = session.query(Microbus).all()
         # return microbus
     except Exception as e:
         raise HTTPException(status_code=404, detail="Can't connect to databases")

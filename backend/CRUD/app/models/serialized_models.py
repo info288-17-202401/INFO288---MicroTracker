@@ -6,53 +6,6 @@ class Point(BaseModel):
     x: float
     y: float
 ##--------------------
-# class LineSerialized(BaseModel):
-#     number: int
-#     color: str
-
-#     class Config:
-#         from_attributes = True
-
-# class BrandSerialized(BaseModel):
-#     id: int
-#     name: str
-
-#     class Config:
-#         from_attributes = True
-
-# class ModelSerialized(BaseModel):
-#     id: int
-#     year: int
-#     name: str
-#     brand_id: int
-
-#     class Config:
-#         from_attributes = True
-
-# class RouteSerialized(BaseModel):
-#     id: int
-#     number: int
-#     date: str
-#     currently: bool
-
-#     class Config:
-#         from_attributes = True
-
-# class SectorSerialized(BaseModel):
-#     id: int
-#     nombre: str
-
-#     class Config:
-#         from_attributes = True
-
-class MicrobusSerialized(BaseModel):
-    patent: str
-    line_id: int
-    brand_id: int
-
-    class Config:
-        from_attributes = True
-
 
 class UbicationSerialized(BaseModel):
     id: int
@@ -63,6 +16,14 @@ class UbicationSerialized(BaseModel):
 
     class Config:
         from_attributes = True
+        
+class MicrobusSerialized(BaseModel):
+    patent: str
+
+    class Config:
+        from_attributes = True
+
+
 
 
 
@@ -75,15 +36,6 @@ class PassengersSerialized(BaseModel):
 
     class Config:
         from_attributes = True
-
-
-# class BusStopSerialized(BaseModel):
-#     id: int
-#     coordinates: Point
-#     route_id: int
-
-#     class Config:
-#         from_attributes = True
 
 
 class VelocitySerialized(BaseModel):

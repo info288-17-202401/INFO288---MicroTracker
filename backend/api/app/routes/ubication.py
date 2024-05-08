@@ -56,14 +56,6 @@ def get_ubication(id: int) -> Any:
         if not ubication:
             raise HTTPException(status_code=404, detail="Item not found")
         
-        # Crear un objeto UbicationSerialized con los datos de la ubicación obtenida
-        # ubication_serialized = UbicationSerialized(
-        #     id=ubication.id,
-        #     micro_patent=ubication.micro_patent,
-        #     date=str(ubication.date),  # Convertir a cadena para UbicationSerialized
-        #     coordinates=Point(x=ubication.coordinates.x, y=ubication.coordinates.y),
-        #     currently=ubication.currently
-        # )
         return ubication
     finally:
         session.close()

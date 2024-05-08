@@ -18,10 +18,12 @@ CREATE TABLE ubication (
     id SERIAL PRIMARY KEY,
     micro_patent VARCHAR NOT NULL,
     date DATE NOT NULL,
-    coordinates POINT NOT NULL,
+    -- coordinates GEOMETRY(Point, 4326) NOT NULL,  -- Use 'Point' instead of 'POINT'
+    coordinates POINT NOT NULL,  -- Use 'Point' instead of 'POINT'
     currently BOOLEAN NOT NULL,
     FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
 );
+
 
 CREATE TABLE passengers (
     id SERIAL PRIMARY KEY,

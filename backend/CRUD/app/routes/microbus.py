@@ -44,3 +44,21 @@ def get_microbus(id: str) -> Any:
         
     finally:
         session.close()
+
+@router.post("/", response_model=Any, status_code=201)
+def create_microbus(microbus: MicrobusSerialized) -> Any:
+    """
+    Get item by ID.
+    """
+    try:
+        SessionLocal = sessionmaker(bind=engine)
+        session = SessionLocal()
+        microbus =session.add(Microbus(
+            patent = microbus.patent
+        ))
+        session.commit()
+        return {"ok": True, "status":201, "detail": "Microbus added", "microbus": microbus} 
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Cant add item \n {str(e)}")
+    finally:
+        session.close()
