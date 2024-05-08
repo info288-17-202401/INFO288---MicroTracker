@@ -47,36 +47,36 @@ CREATE TABLE microbus (
     FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
-CREATE TABLE ubication (
-    id SERIAL PRIMARY KEY,
-    micro_patent VARCHAR NOT NULL,
-    date DATE NOT NULL,
-    coordinates GEOMETRY(POINT) NOT NULL,
-    currently BOOLEAN NOT NULL,
-    FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
-);
+-- CREATE TABLE ubication (
+--     id SERIAL PRIMARY KEY,
+--     micro_patent VARCHAR NOT NULL,
+--     date DATE NOT NULL,
+--     coordinates GEOMETRY(POINT) NOT NULL,
+--     currently BOOLEAN NOT NULL,
+--     FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
+-- );
 
-CREATE TABLE passengers (
-    id SERIAL PRIMARY KEY,
-    micro_patent VARCHAR NOT NULL,
-    number INTEGER NOT NULL,
-    date DATE NOT NULL,
-    currently BOOLEAN NOT NULL,
-    FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
-);
+-- CREATE TABLE passengers (
+--     id SERIAL PRIMARY KEY,
+--     micro_patent VARCHAR NOT NULL,
+--     number INTEGER NOT NULL,
+--     date DATE NOT NULL,
+--     currently BOOLEAN NOT NULL,
+--     FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
+-- );
 
 CREATE TABLE bus_stop (
     id SERIAL PRIMARY KEY,
-    coordinates GEOMETRY(POINT) NOT NULL,
+    coordinates GEOMETRY(Point, 4326) NOT NULL,
     id_ruta_fk INTEGER NOT NULL,
     FOREIGN KEY (id_ruta_fk) REFERENCES route(id)
 );
 
-CREATE TABLE prediction_log_velocity (
-    id SERIAL PRIMARY KEY,
-    velocity FLOAT NOT NULL,
-    date DATE NOT NULL,
-    id_micro_fk VARCHAR NOT NULL,
-    currently BOOLEAN NOT NULL,
-    FOREIGN KEY (id_micro_fk) REFERENCES microbus(patent)
-);
+-- CREATE TABLE prediction_log_velocity (
+--     id SERIAL PRIMARY KEY,
+--     velocity FLOAT NOT NULL,
+--     date DATE NOT NULL,
+--     id_micro_fk VARCHAR NOT NULL,
+--     currently BOOLEAN NOT NULL,
+--     FOREIGN KEY (id_micro_fk) REFERENCES microbus(patent)
+-- );
