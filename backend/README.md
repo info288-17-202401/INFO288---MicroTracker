@@ -1,7 +1,7 @@
 ## Despliegue backend desarrollo
 ### Creacion de red para comunicacion entre contenedores 
 ```
-docker networks create --attachable connection_dockers
+docker network create --attachable connection_dockers
 ```
 ### Servicios bases de datos postgres con pgadmin
 Ejecutar el siguiente comando para levantar los servicios de bd
