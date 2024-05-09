@@ -22,10 +22,10 @@ Utilizando solo el dockerfile
 docker build -t crud -f Dockerfile.crud .  
 ```
 ```
-docker run -v .:/app --name crud -p 4000:4000 crud 
+docker run -v .:/app --name crud -p 4000:4000 --network connection_dockers crud
 ```
 ### API
-Para ejecutar el contenedor de la API
+Para ejecutar el contenedor de la API dentro de la carpeta se ejecuta solo
 ```
 docker compose up -d
 ```
@@ -35,5 +35,5 @@ Utilizando solo el dockerfile
 docker build -t api -f Dockerfile.api .  
 ```
 ```
-docker run -v .:/app --name api -p 4000:4000 api 
+docker run -v .:/app --name api -p 4000:4000 --network connection_dockers api
 ```

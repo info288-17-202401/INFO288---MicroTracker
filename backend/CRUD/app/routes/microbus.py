@@ -34,9 +34,9 @@ def get_microbuses() -> Any:
         microbuses_response = []
         for microbus in microbuses:
             # Obtener los pasajeros actuales
-            passengers = session.query(Passengers).filter(Passengers.micro_patent == microbus.patent, Passengers.currently == True).first()
+            # passengers = session.query(Passengers).filter(Passengers.micro_patent == microbus.patent, Passengers.currently == True).first()
             # Obtener la velocidad actual
-            velocity = session.query(Velocity).filter(Velocity.micro_patent == microbus.patent, Velocity.currently == True).first()
+            # velocity = session.query(Velocity).filter(Velocity.micro_patent == microbus.patent, Velocity.currently == True).first()
             # Obtener la ubicación actual
             ubication = session.query(Ubication).filter(Ubication.micro_patent == microbus.patent, Ubication.currently == True).first()
             if ubication:
@@ -44,9 +44,9 @@ def get_microbuses() -> Any:
             # Crea el objeto MicrobusResponse
             microbus_response = MicrobusResponse(
                 patent=microbus.patent,
-                current_velocity=velocity.velocity if velocity else None,
-                current_passengers=passengers.number if passengers else None,
-                current_ubication=Point(x=ubication.x, y=ubication.y) if ubication else None
+                # current_velocity=velocity.velocity if velocity else None,
+                # current_passengers=passengers.number if passengers else None,
+                coordinates=Point(x=ubication.x, y=ubication.y) if ubication else None
             )
             # Agrega el objeto MicrobusResponse a la lista de respuestas
             microbuses_response.append(microbus_response)
@@ -59,6 +59,49 @@ def get_microbuses() -> Any:
         raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
     finally:
         session.close()
+
+
+@router.get("/{patent}", response_model=MicrobusResponse, status_code=200)
+def get_microbus(patent: str):
+    try:
+        session = SessionLocal()
+
+        # Obtener el microbús específico por su patente
+        microbus = session.query(Microbus).filter(Microbus.patent == patent).first()
+
+        if not microbus:
+            raise HTTPException(status_code=404, detail="Microbus not found")
+
+        # Obtener los pasajeros actuales
+        passengers = session.query(Passengers).filter(Passengers.micro_patent == patent, Passengers.currently == True).first()
+        # Obtener la velocidad actual
+        velocity = session.query(Velocity).filter(Velocity.micro_patent == patent, Velocity.currently == True).first()
+        # Obtener la ubicación actual
+        # ubication = session.query(Ubication).filter(Ubication.micro_patent == patent, Ubication.currently == True).first()
+        # if ubication:
+        #     ubication = to_shape(ubication.coordinates)
+
+        # Crear el objeto MicrobusResponse
+        microbus_response = MicrobusResponse(
+            patent=microbus.patent,
+            current_velocity=velocity.velocity if velocity else None,
+            current_passengers=passengers.number if passengers else None,
+            # coordinates=Point(x=ubication.x, y=ubication.y) if ubication else None
+        )
+
+        logger.debug(f"Response microbus: {microbus_response}")
+
+        return microbus_response
+
+    except Exception as e:
+        # Loguear cualquier error
+        logger.error(f"Error al procesar microbus: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal error: {str(e)}")
+    finally:
+        session.close()
+
+
+
 
 @router.post("/", response_model=Any, status_code=201)
 def create_microbus(microbus: MicrobusSerialized) -> Any:

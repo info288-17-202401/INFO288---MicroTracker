@@ -48,11 +48,12 @@ CREATE OR REPLACE FUNCTION update_currently()
 RETURNS TRIGGER AS $$
 BEGIN
     -- Obtenemos el nombre de la tabla afectada
-    EXECUTE format('UPDATE %I SET currently = FALSE WHERE currently = TRUE', TG_TABLE_NAME);
+    EXECUTE format('UPDATE %I SET currently = FALSE WHERE currently = TRUE AND patent != %L', TG_TABLE_NAME, NEW.patent);
     NEW.currently = TRUE;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
 
 -- Creamos un trigger genérico para la tabla 'ubication'
 CREATE TRIGGER update_currently_ubication
