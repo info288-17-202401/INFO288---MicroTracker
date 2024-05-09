@@ -1,8 +1,7 @@
 from typing import (Any, 
                     # Optional, 
                     List)
-from app.core.conexion_db import engine
-from sqlalchemy.orm import sessionmaker
+from app.core.conexion_db import SessionLocal
 from fastapi import (APIRouter, 
                      HTTPException, 
                      Query)
@@ -17,7 +16,6 @@ def get_velocities(currently: bool | None = Query(None)) -> Any:
     Get velocities from all microbuses, if you want the current velocity, use query.
     """
     try:
-        SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
         if currently:
             velocity = session.query(Velocity).filter(Velocity.currently == currently).all()
@@ -37,7 +35,7 @@ def get_velocity(patent: str) -> Any:
     Get current velocity from microbus .
     """
     try:
-        SessionLocal = sessionmaker(bind=engine)
+        # SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
         velocity = session.get(Velocity).filter(Velocity.micro_patent == patent and Velocity.currently == True).all()
         if not velocity:
@@ -52,7 +50,6 @@ def create_velocity(velocity: VelocitySerialized) -> Any:
     Create velocity this needs a patent that exits.
     """
     try:
-        SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
         velocity = session.add(Velocity(
             velocity=velocity.velocity,

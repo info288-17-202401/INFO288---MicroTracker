@@ -11,6 +11,9 @@ from pydantic import (
 from pydantic_settings import SettingsConfigDict, BaseSettings
 from dotenv import load_dotenv
 from os import getenv
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 def SQLALCHEMY_DATABASE_URL(user, password, server, port, db) -> PostgresDsn:
         return PostgresDsn.build(
@@ -49,7 +52,7 @@ class Settings(BaseSettings):
     PORT: int = int(getenv("PORT"))
     HOST: str = str(getenv("HOST"))
     # TYPE: str = str(json_file["TYPE"])
-    
+    LOG_LEVEL: str = str(getenv("LOG_LEVEL"))
     SQLALCHEMY_DATABASE_URL : PostgresDsn = SQLALCHEMY_DATABASE_URL(POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_SERVER, POSTGRES_PORT, POSTGRES_DB)
     
     def __repr__(self) -> str:

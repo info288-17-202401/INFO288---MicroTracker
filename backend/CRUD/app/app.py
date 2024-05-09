@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.routes.app_routes import api_router
-from app.core.conexion_db import engine 
+from app.core.conexion_db import SessionLocal
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
 
@@ -9,14 +9,13 @@ app = FastAPI()
 @app.get('/')
 def index():
     return {'message': 'Hello World, Im the CRUD',
-            'description': 'ALL OK!'}
+            'description': 'CRUD API working'}
 
 @app.get('/db')
 def index():
     try:
-        SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
-        got = session.execute(text("SELECT 1"))
+        session.execute(text("SELECT 1"))
     except Exception as e:
         return {
             'message': 'Cant connect to db',
