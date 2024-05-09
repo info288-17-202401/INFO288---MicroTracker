@@ -9,7 +9,6 @@ CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
 CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 \c db_sensor
 
-
 CREATE TABLE microbus (
     patent VARCHAR PRIMARY KEY
 );

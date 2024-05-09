@@ -49,9 +49,10 @@ class Settings(BaseSettings):
     PORT: int = int(getenv("PORT"))
     HOST: str = str(getenv("HOST"))
     # TYPE: str = str(json_file["TYPE"])
-    
+    PORT_CRUD: int = int(getenv("PORT_CRUD"))
+    HOST_CRUD: str = str(getenv("HOST_CRUD"))
+    LOG_LEVEL : str = str(getenv("LOG_LEVEL"))
     SQLALCHEMY_DATABASE_URL : PostgresDsn = SQLALCHEMY_DATABASE_URL(POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_SERVER, POSTGRES_PORT, POSTGRES_DB)
-    
     def __repr__(self) -> str:
         return f"Settings({self.dict()})"
     

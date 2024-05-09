@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from geoalchemy2 import Geometry
+# from geoalchemy2 import Geometry
 
 ##------------------
 class Point(BaseModel):
@@ -29,14 +29,14 @@ class ModelSerialized(BaseModel):
     class Config:
         from_attributes = True
 
-class RouteSerialized(BaseModel):
-    id: int
-    number: int
-    date: str
-    currently: bool
+# class RouteSerialized(BaseModel):
+#     id: int
+#     number: int
+#     date: str
+#     currently: bool
 
-    class Config:
-        from_attributes = True
+#     class Config:
+#         from_attributes = True
 
 class SectorSerialized(BaseModel):
     id: int
@@ -54,47 +54,47 @@ class MicrobusSerialized(BaseModel):
         from_attributes = True
 
 
-class UbicationSerialized(BaseModel):
-    id: int
-    micro_patent: str
-    date: str
-    coordinates: Point
-    currently: bool
+# class UbicationSerialized(BaseModel):
+#     id: int
+#     micro_patent: str
+#     date: str
+#     coordinates: Point
+#     currently: bool
 
-    class Config:
-        from_attributes = True
-
-
-
-class PassengersSerialized(BaseModel):
-    id: int
-    micro_patent: str
-    number: int
-    date: str
-    currently: bool
-
-    class Config:
-        from_attributes = True
+#     class Config:
+#         from_attributes = True
 
 
-class BusStopSerialized(BaseModel):
-    id: int
-    coordinates: str
-    route_id: int
 
-    class Config:
-        from_attributes = True
+# class PassengersSerialized(BaseModel):
+#     id: int
+#     micro_patent: str
+#     number: int
+#     date: str
+#     currently: bool
+
+#     class Config:
+#         from_attributes = True
 
 
-class PredictionLogVelocitySerialized(BaseModel):
-    id: int
-    velocity: float
-    date: str
-    micro_patent: int
-    currently: bool
+# class BusStopSerialized(BaseModel):
+#     id: int
+#     coordinates: str
+#     route_id: int
 
-    class Config:
-        from_attributes = True
+#     class Config:
+#         from_attributes = True
+
+
+# class PredictionLogVelocitySerialized(BaseModel):
+#     id: int
+#     velocity: float
+#     date: str
+#     micro_patent: int
+#     currently: bool
+
+#     class Config:
+#         from_attributes = True
 
 
 

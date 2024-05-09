@@ -6,3 +6,4 @@ geoalchemy2
 uvicorn
 pydantic_settings
 psycopg2
+requests
