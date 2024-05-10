@@ -20,7 +20,7 @@ with open("rutas_micros.csv", "r") as csvfile:
         # data = {"patent": patent, "coordinates": {"x": x, "y": y}}
         data = {
             "id": 14,
-            "micro_patent": patent,
+            "patent": patent,
             "date": "2023-11-21",
             "currently": True,
             "coordinates": {"x": x, "y": y},
