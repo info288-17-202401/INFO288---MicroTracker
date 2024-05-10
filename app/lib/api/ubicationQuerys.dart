@@ -5,7 +5,7 @@ import "package:dio/dio.dart";
 class UbicationQuerys {
   final dio = Dio();
   Future<List<Micro>> getMicrosCurrentPosition() async {
-    final response = await dio.get("http://10.0.2.2:3000");
+    final response = await dio.get("http://10.0.2.2:5000/microbus");
     return Micro.fromJsonList(response.data);
   }
 

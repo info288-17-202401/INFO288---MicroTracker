@@ -146,7 +146,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     width: 80.0,
                     height: 80.0,
                     point: micro.currentPosition!,
-                    key: Key(micro.id.toString()),
+                    key: Key(micro.patent.toString()),
                     child: GestureDetector(
                       onTap: () {
                         context.read<MicroProvider>().setCurrentMicro(micro);
