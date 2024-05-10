@@ -1,17 +1,16 @@
-from typing import (Any, 
-                    # Optional, 
-                    List)
+from typing import (
+    Any,
+    # Optional,
+    List,
+)
 from app.core.conexion_db import SessionLocal
-from fastapi import (APIRouter, 
-                     HTTPException, 
-                     Query)
-#Como retorna la api
-from app.models.serialized_models import (
-    UbicationSerialized, 
-    Point
-    ) 
-from app.models.models import Ubication #Obtiene desde la BD
+from fastapi import APIRouter, HTTPException, Query
+
+# Como retorna la api
+from app.models.serialized_models import UbicationSerialized, Point
+from app.models.models import Ubication  # Obtiene desde la BD
 import logging
+
 router = APIRouter()
 
 # Configura el nivel de registro
@@ -24,6 +23,8 @@ logger = logging.getLogger(__name__)
 """
 NO SE USARA
 """
+
+
 @router.get("/", response_model=List[UbicationSerialized], status_code=200)
 def get_ubications(patent: str | None = Query(None)) -> Any:
     """
@@ -32,7 +33,9 @@ def get_ubications(patent: str | None = Query(None)) -> Any:
     try:
         session = SessionLocal()
         if patent:
-            ubications = session.query(Ubication).filter(Ubication.micro_patent == patent).all()
+            ubications = (
+                session.query(Ubication).filter(Ubication.micro_patent == patent).all()
+            )
         else:
             ubications = session.query(Ubication).all()
         logger.debug(f"Ubications: {ubications}")
@@ -48,16 +51,17 @@ def get_ubications(patent: str | None = Query(None)) -> Any:
                 micro_patent=ubication.micro_patent,
                 date=str(ubication.date),
                 coordinates=Point(x=ubication.coordinates.x, y=ubication.coordinates.y),
-                currently=ubication.currently
+                currently=ubication.currently,
             )
             ubications_serialized.append(ubication_serialized)
-        
+
         return ubications_serialized
     except Exception as e:
         logger.error(f"Error: {e}")
-        raise HTTPException(status_code=500, detail=f'Internal error:\n {str(e)}')
+        raise HTTPException(status_code=500, detail=f"Internal error:\n {str(e)}")
     finally:
         session.close()
+
 
 ##No se usara
 @router.get("/{patent}", response_model=UbicationSerialized, status_code=200)
@@ -67,14 +71,19 @@ def get_ubication(patent: str) -> Any:
     """
     try:
         session = SessionLocal()
-        ubication = session.query(Ubication).filter(Ubication.micro_patent == patent and Ubication.currently == True).first()
+        ubication = (
+            session.query(Ubication)
+            .filter(Ubication.micro_patent == patent and Ubication.currently == True)
+            .first()
+        )
         if not ubication:
             raise HTTPException(status_code=404, detail="Item not found")
         return ubication
     finally:
         session.close()
 
-#TO DO:Cambiar
+
+# TO DO:Cambiar
 @router.post("/", response_model=Any, status_code=201)
 def create_ubication(ubication: UbicationSerialized) -> Any:
     """
@@ -82,14 +91,16 @@ def create_ubication(ubication: UbicationSerialized) -> Any:
     """
     try:
         session = SessionLocal()
-        ubication = session.add(Ubication(
-            micro_patent=ubication.micro_patent,
-            date=ubication.date,
-            coordinates=f"POINT({ubication.coordinates.x} {ubication.coordinates.y})",
-            currently=ubication.currently
-        ))
+        ubication = session.add(
+            Ubication(
+                micro_patent=ubication.micro_patent,
+                date=ubication.date,
+                coordinates=f"POINT({ubication.coordinates.x} {ubication.coordinates.y})",
+                currently=ubication.currently,
+            )
+        )
         session.commit()
-        return {"ok": True, "status":201, "detail": "Ubication added"} 
+        return {"ok": True, "status": 201, "detail": "Ubication added"}
     except Exception as e:
         raise HTTPException(status_code=404, detail=f"Cant add item \n {str(e)}")
     finally:
