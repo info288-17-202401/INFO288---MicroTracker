@@ -71,7 +71,7 @@ def get_ubication(patent: str) -> Any:
         session = SessionLocal()
         ubication = (
             session.query(Ubication)
-            .filter(Ubication.micro_patent == patent and Ubication.currently == True)
+            .filter(Ubication.patent == patent and Ubication.currently == True)
             .first()
         )
         if not ubication:
@@ -91,7 +91,7 @@ def create_ubication(ubication: UbicationSerialized) -> Any:
         session = SessionLocal()
         ubication = session.add(
             Ubication(
-                micro_patent=ubication.micro_patent,
+                patent=ubication.patent,
                 date=ubication.date,
                 coordinates=f"POINT({ubication.coordinates.x} {ubication.coordinates.y})",
                 currently=ubication.currently,

@@ -20,7 +20,7 @@ def get_passengers(patent: str | None = Query(None)) -> Any:
         # SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
         if patent:
-            passengers = session.query(Passengers).filter(Passengers.micro_patent == patent).all()
+            passengers = session.query(Passengers).filter(Passengers.patent == patent).all()
         else:
             passengers = session.query(Passengers).all()
         return passengers
@@ -37,7 +37,7 @@ def get_passengers(patent: str) -> Any:
     try:
         # SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
-        passenger = session.query(Passengers).filter(Passengers.micro_patent == patent and Passengers.currently == True).first()
+        passenger = session.query(Passengers).filter(Passengers.patent == patent and Passengers.currently == True).first()
         # print(passenger)
         if not passenger:
             raise HTTPException(status_code=404, detail="Item not found")
@@ -54,7 +54,7 @@ def create_passenger(passenger: PassengersSerialized) -> Any:
         # SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
         passenger = session.add(Passengers(
-            micro_patent=passenger.micro_patent,
+            patent=passenger.patent,
             number=passenger.number,
             date=passenger.date,
             currently=passenger.currently

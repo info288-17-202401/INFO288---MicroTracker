@@ -10,7 +10,7 @@ from core.Settings import settings
 try:
     engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URL))
     
-    # DATABASE_URL = SQLALCHEMY_DATABASE_URL("postgres", "postgres", "databases-postgres-1", 5432, "db_linea")
+    # DATABASE_URL = SQLALCHEMY_DATABASE_URL("postgres", "postgres", "postgres", 5432, "db_linea")
     # engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URL))
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     session = SessionLocal()

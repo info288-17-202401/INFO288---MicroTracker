@@ -49,20 +49,20 @@ CREATE TABLE microbus (
 
 -- CREATE TABLE ubication (
 --     id SERIAL PRIMARY KEY,
---     micro_patent VARCHAR NOT NULL,
+--     patent VARCHAR NOT NULL,
 --     date DATE NOT NULL,
 --     coordinates GEOMETRY(POINT) NOT NULL,
 --     currently BOOLEAN NOT NULL,
---     FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
+--     FOREIGN KEY (patent) REFERENCES microbus(patent)
 -- );
 
 -- CREATE TABLE passengers (
 --     id SERIAL PRIMARY KEY,
---     micro_patent VARCHAR NOT NULL,
+--     patent VARCHAR NOT NULL,
 --     number INTEGER NOT NULL,
 --     date DATE NOT NULL,
 --     currently BOOLEAN NOT NULL,
---     FOREIGN KEY (micro_patent) REFERENCES microbus(patent)
+--     FOREIGN KEY (patent) REFERENCES microbus(patent)
 -- );
 
 CREATE TABLE bus_stop (

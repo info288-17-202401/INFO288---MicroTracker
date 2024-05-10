@@ -7,9 +7,12 @@ class Point(BaseModel):
     y: float
 ##--------------------
 
+"""
+SE AGREGO CLASE RESPONSE PARA TODAS
+"""
 class UbicationSerialized(BaseModel):
     id: int
-    micro_patent: str
+    patent: str
     date: str
     coordinates: Point
     currently: bool
@@ -25,7 +28,7 @@ class MicrobusSerialized(BaseModel):
 
 class PassengersSerialized(BaseModel):
     id: int
-    micro_patent: str
+    patent: str
     number: int
     date: str
     currently: bool
@@ -38,7 +41,7 @@ class VelocitySerialized(BaseModel):
     id: int
     velocity: float
     date: str
-    micro_patent: str
+    patent: str
     currently: bool
 
     class Config:

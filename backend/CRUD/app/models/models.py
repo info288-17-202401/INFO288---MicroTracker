@@ -14,32 +14,32 @@ class Microbus(Base):
 class Ubication(Base):
     __tablename__ = 'ubication'
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    micro_patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
+    patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
     date = Column(Date, nullable=False)
     coordinates = Column(Geometry('POINT', srid=4326), nullable=False)  # Use 'POINT' instead of 'POINT' and '4326' instead of 4326
     currently = Column(Boolean, nullable=False)
 
     def __repr__(self):
-        return f"<Ubication(id={self.id}, micro_patent={self.micro_patent}, date={self.date}, coordinates={self.coordinates}, currently={self.currently})>"
+        return f"<Ubication(id={self.id}, patent={self.patent}, date={self.date}, coordinates={self.coordinates}, currently={self.currently})>"
 
 class Passengers(Base):
     __tablename__ = 'passengers'
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    micro_patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
+    patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
     number = Column(Integer, nullable=False)
     date = Column(Date, nullable=False)
     currently = Column(Boolean, nullable=False)
 
     def __repr__(self):
-        return f"<Passengers(id={self.id}, micro_patent={self.micro_patent}, number={self.number}, date={self.date}, currently={self.currently})>"
+        return f"<Passengers(id={self.id}, patent={self.patent}, number={self.number}, date={self.date}, currently={self.currently})>"
 
 class Velocity(Base):
     __tablename__ = 'velocity'
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     velocity = Column(Float, nullable=False)
     date = Column(Date, nullable=False)
-    micro_patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
+    patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
     currently = Column(Boolean, nullable=False)
 
     def __repr__(self):
-        return f"<Velocity(id={self.id}, velocity={self.velocity}, date={self.date}, micro_patent={self.micro_patent}, currently={self.currently})>"
+        return f"<Velocity(id={self.id}, velocity={self.velocity}, date={self.date}, patent={self.patent}, currently={self.currently})>"

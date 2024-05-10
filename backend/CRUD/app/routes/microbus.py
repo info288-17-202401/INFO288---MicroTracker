@@ -39,7 +39,7 @@ def get_microbuses() -> Any:
             ubication = (
                 session.query(Ubication)
                 .filter(
-                    Ubication.micro_patent == microbus.patent,
+                    Ubication.patent == microbus.patent,
                     Ubication.currently == True,
                 )
                 .first()
@@ -80,13 +80,13 @@ def get_microbus(patent: str):
         # Obtener los pasajeros actuales
         passengers = (
             session.query(Passengers)
-            .filter(Passengers.micro_patent == patent, Passengers.currently == True)
+            .filter(Passengers.patent == patent, Passengers.currently == True)
             .first()
         )
         # Obtener la velocidad actual
         velocity = (
             session.query(Velocity)
-            .filter(Velocity.micro_patent == patent, Velocity.currently == True)
+            .filter(Velocity.patent == patent, Velocity.currently == True)
             .first()
         )
         # Obtener la ubicación actual

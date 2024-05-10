@@ -37,7 +37,7 @@ def get_velocity(patent: str) -> Any:
     try:
         # SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
-        velocity = session.get(Velocity).filter(Velocity.micro_patent == patent and Velocity.currently == True).all()
+        velocity = session.get(Velocity).filter(Velocity.patent == patent and Velocity.currently == True).all()
         if not velocity:
             raise HTTPException(status_code=404, detail="Item not found")
         return velocity
@@ -54,7 +54,7 @@ def create_velocity(velocity: VelocitySerialized) -> Any:
         velocity = session.add(Velocity(
             velocity=velocity.velocity,
             date=velocity.date,
-            micro_patent=velocity.micro_patent,
+            patent=velocity.patent,
             currently=velocity.currently
         ))
         session.commit()

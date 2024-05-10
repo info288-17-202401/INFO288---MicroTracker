@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int = int(getenv("POSTGRES_PORT"))
     POSTGRES_USER: str = str(getenv("POSTGRES_USER"))
     # POSTGRES_SERVER: str = str(getenv("POSTGRES_SERVER"))
-    POSTGRES_SERVER: str = "databases-postgres-1"
+    POSTGRES_SERVER: str = "postgres"
     POSTGRES_PASSWORD: str = str(getenv("POSTGRES_PASSWORD"))
     PORT: int = int(getenv("PORT"))
     HOST: str = str(getenv("HOST"))

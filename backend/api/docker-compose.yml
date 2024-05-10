@@ -11,9 +11,6 @@ services:
       - .:/app
     networks:
       - connection_dockers
-      - connection_crud_api
 networks:
   connection_dockers:
-    external: true
-  connection_crud_api:
     external: true
