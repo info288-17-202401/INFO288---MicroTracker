@@ -32,7 +32,7 @@ def get_ubications(patent: str | None = Query(None)) -> Any:
     try:
         session = SessionLocal()
         if patent:
-            ubications = session.query(Ubication).filter(Ubication.micro_patent == patent).all()
+            ubications = session.query(Ubication).filter(Ubication.patent == patent).all()
         else:
             ubications = session.query(Ubication).all()
         logger.debug(f"Ubications: {ubications}")
@@ -45,7 +45,7 @@ def get_ubications(patent: str | None = Query(None)) -> Any:
         for ubication in ubications:
             ubication_serialized = UbicationSerialized(
                 id=ubication.id,
-                micro_patent=ubication.micro_patent,
+                patent=ubication.patent,
                 date=str(ubication.date),
                 coordinates=Point(x=ubication.coordinates.x, y=ubication.coordinates.y),
                 currently=ubication.currently
@@ -67,7 +67,7 @@ def get_ubication(patent: str) -> Any:
     """
     try:
         session = SessionLocal()
-        ubication = session.query(Ubication).filter(Ubication.micro_patent == patent and Ubication.currently == True).first()
+        ubication = session.query(Ubication).filter(Ubication.patent == patent and Ubication.currently == True).first()
         if not ubication:
             raise HTTPException(status_code=404, detail="Item not found")
         return ubication
@@ -83,7 +83,7 @@ def create_ubication(ubication: UbicationSerialized) -> Any:
     try:
         session = SessionLocal()
         ubication = session.add(Ubication(
-            micro_patent=ubication.micro_patent,
+            patent=ubication.patent,
             date=ubication.date,
             coordinates=f"POINT({ubication.coordinates.x} {ubication.coordinates.y})",
             currently=ubication.currently

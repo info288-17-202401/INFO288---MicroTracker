@@ -34,11 +34,11 @@ def get_microbuses() -> Any:
         microbuses_response = []
         for microbus in microbuses:
             # Obtener los pasajeros actuales
-            # passengers = session.query(Passengers).filter(Passengers.micro_patent == microbus.patent, Passengers.currently == True).first()
+            # passengers = session.query(Passengers).filter(Passengers.patent == microbus.patent, Passengers.currently == True).first()
             # Obtener la velocidad actual
-            # velocity = session.query(Velocity).filter(Velocity.micro_patent == microbus.patent, Velocity.currently == True).first()
+            # velocity = session.query(Velocity).filter(Velocity.patent == microbus.patent, Velocity.currently == True).first()
             # Obtener la ubicación actual
-            ubication = session.query(Ubication).filter(Ubication.micro_patent == microbus.patent, Ubication.currently == True).first()
+            ubication = session.query(Ubication).filter(Ubication.patent == microbus.patent, Ubication.currently == True).first()
             if ubication:
                 ubication = to_shape(ubication.coordinates)
             # Crea el objeto MicrobusResponse
@@ -50,7 +50,7 @@ def get_microbuses() -> Any:
             )
             # Agrega el objeto MicrobusResponse a la lista de respuestas
             microbuses_response.append(microbus_response)
-        logger.debug(f"Response microbuses: {microbus_response}")
+            logger.debug(f"Response microbuses: {microbus_response}")
         return microbuses_response
         
     except Exception as e:
@@ -73,19 +73,19 @@ def get_microbus(patent: str):
             raise HTTPException(status_code=404, detail="Microbus not found")
 
         # Obtener los pasajeros actuales
-        passengers = session.query(Passengers).filter(Passengers.micro_patent == patent, Passengers.currently == True).first()
+        passengers = session.query(Passengers).filter(Passengers.patent == patent, Passengers.currently == True).first()
         # Obtener la velocidad actual
-        velocity = session.query(Velocity).filter(Velocity.micro_patent == patent, Velocity.currently == True).first()
+        velocity = session.query(Velocity).filter(Velocity.patent == patent, Velocity.currently == True).first()
         # Obtener la ubicación actual
-        # ubication = session.query(Ubication).filter(Ubication.micro_patent == patent, Ubication.currently == True).first()
+        # ubication = session.query(Ubication).filter(Ubication.patent == patent, Ubication.currently == True).first()
         # if ubication:
         #     ubication = to_shape(ubication.coordinates)
 
         # Crear el objeto MicrobusResponse
         microbus_response = MicrobusResponse(
             patent=microbus.patent,
-            current_velocity=velocity.velocity if velocity else None,
-            current_passengers=passengers.number if passengers else None,
+            velocity=velocity.velocity if velocity else None,
+            passengers=passengers.number if passengers else None,
             # coordinates=Point(x=ubication.x, y=ubication.y) if ubication else None
         )
 
