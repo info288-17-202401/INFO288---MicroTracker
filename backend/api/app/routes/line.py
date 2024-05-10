@@ -16,10 +16,8 @@ def get_lines() -> Any:
     Get all the lines.
     """
     try:
-        # SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
         line = session.query(Line).all()
-        # return line
     except Exception as e:
         raise HTTPException(status_code=404, msg="Can't connect to databases", detail=e)
     finally:
@@ -33,7 +31,6 @@ def get_line(id: int) -> Any:
     Get line by ID.
     """
     try:
-        # SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
         line = session.get(Line, id)
         if not line:
@@ -48,7 +45,6 @@ def create_line(line: LineSerialized) -> Any:
     Get item by ID.
     """
     try:
-        # SessionLocal = sessionmaker(bind=engine)
         session = SessionLocal()
         line = session.add(Line(
             number = line.number,

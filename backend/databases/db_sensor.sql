@@ -17,6 +17,7 @@ CREATE TABLE ubication (
     id SERIAL PRIMARY KEY,
     patent VARCHAR NOT NULL,
     date DATE NOT NULL,
+    -- date DATE NOT NULL = NOW(),
     -- Use 'Point' instead of 'POINT' because POINT gets error
     coordinates GEOMETRY(Point, 4326) NOT NULL,  
     currently BOOLEAN NOT NULL,
@@ -46,10 +47,13 @@ CREATE TABLE velocity (
 -- Creamos una función genérica para actualizar el estado 'currently'
 CREATE OR REPLACE FUNCTION update_currently()
 RETURNS TRIGGER AS $$
+-- DECLARE
+--     current_timestamp TIMESTAMP WITH TIME ZONE := NOW();
 BEGIN
     -- Obtenemos el nombre de la tabla afectada
-    EXECUTE format('UPDATE %I SET currently = FALSE WHERE currently = TRUE AND patent != %L', TG_TABLE_NAME, NEW.patent);
+    EXECUTE format('UPDATE %I SET currently = FALSE WHERE currently = TRUE AND patent = %L', TG_TABLE_NAME, NEW.patent);
     NEW.currently = TRUE;
+    -- NEW.date = current_timestamp;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -72,3 +76,7 @@ CREATE TRIGGER update_currently_passengers
 BEFORE INSERT ON passengers
 FOR EACH ROW
 EXECUTE FUNCTION update_currently();
+
+ALTER TABLE ubication ALTER COLUMN date SET DEFAULT NOW();
+ALTER TABLE passengers ALTER COLUMN date SET DEFAULT NOW();
+ALTER TABLE velocity ALTER COLUMN date SET DEFAULT NOW();

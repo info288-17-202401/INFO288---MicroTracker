@@ -8,10 +8,11 @@ CREATE EXTENSION IF NOT EXISTS postgis_topology;
 CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
 CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 \c db_linea
-
+--HACER TABLA SECTOR - LINEA
 CREATE TABLE line (
     number INTEGER PRIMARY KEY,
     color VARCHAR NOT NULL
+    -- Arrreglo de puntos (RUTA)
 );
 
 CREATE TABLE brand (
@@ -27,12 +28,12 @@ CREATE TABLE model (
     FOREIGN KEY (id_marca_fk) REFERENCES brand(id)
 );
 
-CREATE TABLE route (
-    id SERIAL PRIMARY KEY,
-    number INTEGER NOT NULL,
-    date DATE NOT NULL,
-    currently BOOLEAN NOT NULL
-);
+-- CREATE TABLE route (
+--     id SERIAL PRIMARY KEY,
+--     number INTEGER NOT NULL,
+--     date DATE NOT NULL,
+--     currently BOOLEAN NOT NULL
+-- );
 
 CREATE TABLE sector (
     id SERIAL PRIMARY KEY,
@@ -47,36 +48,10 @@ CREATE TABLE microbus (
     FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
--- CREATE TABLE ubication (
---     id SERIAL PRIMARY KEY,
---     patent VARCHAR NOT NULL,
---     date DATE NOT NULL,
---     coordinates GEOMETRY(POINT) NOT NULL,
---     currently BOOLEAN NOT NULL,
---     FOREIGN KEY (patent) REFERENCES microbus(patent)
--- );
-
--- CREATE TABLE passengers (
---     id SERIAL PRIMARY KEY,
---     patent VARCHAR NOT NULL,
---     number INTEGER NOT NULL,
---     date DATE NOT NULL,
---     currently BOOLEAN NOT NULL,
---     FOREIGN KEY (patent) REFERENCES microbus(patent)
--- );
-
+-- Se elimina bustop?
 CREATE TABLE bus_stop (
     id SERIAL PRIMARY KEY,
     coordinates GEOMETRY(Point, 4326) NOT NULL,
     id_ruta_fk INTEGER NOT NULL,
     FOREIGN KEY (id_ruta_fk) REFERENCES route(id)
 );
-
--- CREATE TABLE prediction_log_velocity (
---     id SERIAL PRIMARY KEY,
---     velocity FLOAT NOT NULL,
---     date DATE NOT NULL,
---     id_micro_fk VARCHAR NOT NULL,
---     currently BOOLEAN NOT NULL,
---     FOREIGN KEY (id_micro_fk) REFERENCES microbus(patent)
--- );
