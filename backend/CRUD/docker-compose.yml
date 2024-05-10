@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   crud:
+    container_name: crud
     build:
       context: .
       dockerfile: Dockerfile.crud
