@@ -8,6 +8,7 @@ CREATE EXTENSION IF NOT EXISTS postgis_topology;
 CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
 CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 \c db_linea
+
 --HACER TABLA SECTOR - LINEA
 CREATE TABLE line (
     number INTEGER PRIMARY KEY,
@@ -28,12 +29,12 @@ CREATE TABLE model (
     FOREIGN KEY (id_marca_fk) REFERENCES brand(id)
 );
 
--- CREATE TABLE route (
---     id SERIAL PRIMARY KEY,
---     number INTEGER NOT NULL,
---     date DATE NOT NULL,
---     currently BOOLEAN NOT NULL
--- );
+CREATE TABLE route (
+    id SERIAL PRIMARY KEY,
+    number INTEGER NOT NULL,
+    date DATE NOT NULL,
+    currently BOOLEAN NOT NULL
+);
 
 CREATE TABLE sector (
     id SERIAL PRIMARY KEY,
@@ -52,6 +53,6 @@ CREATE TABLE microbus (
 CREATE TABLE bus_stop (
     id SERIAL PRIMARY KEY,
     coordinates GEOMETRY(Point, 4326) NOT NULL,
-    id_ruta_fk INTEGER NOT NULL,
+    -- id_ruta_fk INTEGER NOT NULL,
     FOREIGN KEY (id_ruta_fk) REFERENCES route(id)
 );

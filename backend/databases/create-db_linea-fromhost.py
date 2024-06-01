@@ -14,7 +14,7 @@ try:
     from api.app.core.Settings import SQLALCHEMY_DATABASE_URL
 except Exception as e:
     print("Error: Can't import")
-    print("Execute from the root folder of backend like this: python databases/create_db_linea-fromhost.py")
+    print("Execute from the root folder of backend like this: \npython databases/create_db_linea-fromhost.py")
     print("ERROR: ", e)
     sys.exit(1)
 # from core.conexion_db import engine
