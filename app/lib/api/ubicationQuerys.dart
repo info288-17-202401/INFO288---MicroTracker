@@ -1,11 +1,12 @@
 import "package:app/models/microModel.dart";
 import "package:app/models/routeModel.dart";
 import "package:dio/dio.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 class UbicationQuerys {
   final dio = Dio();
   Future<List<Micro>> getMicrosCurrentPosition() async {
-    final response = await dio.get("http://10.0.2.2:5000/microbus");
+    final response = await dio.get('${dotenv.env['API_URL']}/microbus');
     return Micro.fromJsonList(response.data);
   }
 

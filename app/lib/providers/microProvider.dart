@@ -5,7 +5,7 @@ import "package:latlong2/latlong.dart";
 class MicroProvider with ChangeNotifier {
   Micro _currentMicro = Micro(
       // id: "No seleccionado",
-      patent: "No disponible",
+      patent: "None",
       brand: 0,
       // model: "No disponible",
       line: 0,

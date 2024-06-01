@@ -17,9 +17,13 @@ class MicroDetailPanel extends StatefulWidget {
 
 class _MicroDetailPanelState extends State<MicroDetailPanel> {
   void showRoute(String id) async {
-    widget.closePanel();
-    final response = await UbicationQuerys().getMicroRoute(id);
-    widget.setCurrentRoute(response.route);
+    if (id != "0") {
+      widget.closePanel();
+      final response = await UbicationQuerys().getMicroRoute(id);
+      widget.setCurrentRoute(response.route);
+    } else {
+      print("Error: No se puede mostrar la ruta de un micro sin id");
+    }
   }
 
   @override

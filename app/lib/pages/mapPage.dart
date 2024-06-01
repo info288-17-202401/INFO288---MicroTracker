@@ -1,4 +1,8 @@
+import "package:app/api/paraderosQuerys.dart";
+import "package:app/models/paraderoModel.dart";
+import "package:app/models/predictionModel.dart";
 import "package:app/widgets/lineList.dart";
+import "package:app/widgets/predictionList.dart";
 import "package:app/widgets/mapButton.dart";
 import "package:flutter/material.dart";
 import "package:flutter_map/flutter_map.dart";
@@ -9,6 +13,7 @@ import 'package:app/providers/microProvider.dart';
 import "package:location/location.dart";
 import "package:provider/provider.dart";
 import "package:app/library/animated_map_controller.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 class MapPage extends StatefulWidget {
   final List<LatLng> route;
@@ -32,9 +37,18 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   late final _animatedMapController = AnimatedMapController(vsync: this);
   bool showLines = false;
+  bool showPredictions = false;
   LatLng initialCenter = LatLng(-39.819955, -73.241229);
   double initialZoom = 16;
   List<Micro> micros = [];
+  List<Prediction> predictions = [
+    Prediction(patent: "ASD", line: 1, distance: 100, time: 123)
+  ];
+  List<Paradero> paraderos = [
+    Paradero(id: 1, position: LatLng(-39.816801, -73.243145)),
+    Paradero(id: 2, position: LatLng(-39.816307, -73.243923)),
+    Paradero(id: 3, position: LatLng(-39.817955, -73.244679))
+  ];
   LatLng? _currentPosition;
   Location location = Location();
 
@@ -43,6 +57,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     super.initState();
     getCurrentPosition();
     getMicrosPosition();
+    // getParaderos();
     location.onLocationChanged.listen((LocationData newPosition) {
       setState(() {
         _currentPosition =
@@ -68,6 +83,25 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
       });
     }
     print("MICROS UPDATED");
+  }
+
+  void getParaderos() async {
+    final response = await ParaderoQuerys().getParaderos();
+    if (response != null) {
+      setState(() {
+        paraderos = response;
+      });
+    }
+  }
+
+  void getPredictions(int paraderoId) async {
+    final response =
+        await ParaderoQuerys().getPredictions(widget.linesSelected, paraderoId);
+    if (response != null) {
+      setState(() {
+        predictions = response;
+      });
+    }
   }
 
   Future<LocationData> getLocation() async {
@@ -127,20 +161,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
               )
             ]),
             MarkerLayer(markers: [
-              _currentPosition == null
-                  ? Marker(
-                      point: initialCenter,
-                      child: Icon(Icons.person_pin_circle),
-                    )
-                  : Marker(
-                      point: _currentPosition!,
-                      alignment: const Alignment(-0.5, -2),
-                      child: Icon(
-                        Icons.person_pin_circle,
-                        color: Colors.blue,
-                        size: 50,
-                      ),
-                    ),
               for (final micro in micros)
                 Marker(
                     width: 80.0,
@@ -156,6 +176,39 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                       },
                       child: Image.asset("assets/${micro.line}.png"),
                     )),
+              for (final paradero in paraderos)
+                Marker(
+                    width: 30.0,
+                    height: 30.0,
+                    point: paradero.position,
+                    key: Key(paradero.id.toString()),
+                    child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            showPredictions = true;
+                          });
+                          // getPredictions(paradero.id);
+                          print("Paradero ${paradero.id} clicked");
+                          print('ENV: ${dotenv.env['API_URL']}');
+                        },
+                        child: Image.asset("assets/paradero.png"))),
+              _currentPosition == null
+                  ? Marker(
+                      point: initialCenter,
+                      child: Icon(Icons.person_pin_circle),
+                      width: 0.0,
+                    )
+                  : Marker(
+                      width: 50.0,
+                      height: 50.0,
+                      point: _currentPosition!,
+                      child: Transform.translate(
+                        offset: Offset(
+                            0, -25), // Ajusta este valor según sea necesario
+                        child:
+                            Image.asset("assets/userUbication.png", scale: 1.6),
+                      ),
+                    ),
             ]),
           ],
         ),
@@ -171,6 +224,15 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                   });
                 },
               )
+            : SizedBox.shrink(),
+        showPredictions
+            ? PredictionList(
+                closePanel: () {
+                  setState(() {
+                    showPredictions = false;
+                  });
+                },
+                predictions: predictions)
             : SizedBox.shrink(),
         Positioned(
             bottom: MediaQuery.of(context).size.height * 0.1,
