@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  loadbalancer:
+    container_name: loadbalancer
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    restart: always
+    ports:
+      - "4050:4050"
+    # volumes:
+    #   - .:.
+    networks:
+      - connection_dockers
+networks:
+  connection_dockers:
+    external: true
