@@ -14,7 +14,7 @@ class ParaderoQuerys {
   Future<List<Prediction>> getPredictions(
       List<int> selectedLines, int paraderoId) async {
     final response = await dio.get('${dotenv.env['API_URL']}/prediction/',
-        data: {"lines": selectedLines, "paraderoId": paraderoId});
+        data: {"lines_selected": selectedLines, "busstop_id": paraderoId});
     return Prediction.fromJsonList(response.data);
   }
 }

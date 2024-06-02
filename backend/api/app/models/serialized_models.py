@@ -1,3 +1,4 @@
+from typing import List
 from pydantic import BaseModel
 
 # from geoalchemy2 import Geometry
@@ -55,8 +56,26 @@ class MicrobusSerialized(BaseModel):
 
 class BusStopSerialized(BaseModel):
     id: int
-    name: str
+    id_ruta_fk: int
     coordinates: Point
+
+    class Config:
+        from_attributes = True
+
+
+class PredictionResponse(BaseModel):
+    microbus_id: str
+    line_id: int
+    time: float
+    distance: float
+
+    class Config:
+        from_attributes = True
+
+
+class PredictionCreate(BaseModel):
+    lines_selected: List[int]
+    busstop_id: int
 
     class Config:
         from_attributes = True

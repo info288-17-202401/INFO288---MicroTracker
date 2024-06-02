@@ -3,8 +3,8 @@ from sqlalchemy import (
     Integer,
     String,
     ForeignKey,
-    # Date,
-    # Boolean,
+    Date,
+    Boolean,
     # Float
 )
 from geoalchemy2 import Geometry
@@ -70,12 +70,24 @@ class Microbus(Base):
         return f"<Microbus(patent={self.patent}, line_id={self.line_id}, brand_id={self.brand_id})>"
 
 
+##TODO: Cambiar el modelo de ruta con el nuevo modelo de la bd
+class Route(Base):
+    __tablename__ = "route"
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    number = Column(Integer, nullable=False)
+    date = Column(Date, nullable=False)
+    currently = Column(Boolean, nullable=False)
+
+    def __repr__(self):
+        return f"<Route(id={self.id}, number={self.number}, date={self.date}, currently={self.currently})>"
+
+
 ##Pensar si ponerle una flag a la ubicacion para decir que es un paradero
 class BusStop(Base):
     __tablename__ = "bus_stop"
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    coordinates = Column(Geometry(geometry_type="POINT"), nullable=False)
+    coordinates = Column(Geometry("POINT", srid=4326), nullable=False)
     id_ruta_fk = Column(Integer, ForeignKey("route.id"), nullable=False)
 
     def __repr__(self):
-        return f"<BusStop(id={self.id}, coordinates={self.coordinates}, route_id={self.route_id})>"
+        return f"<BusStop(id={self.id}, coordinates={self.coordinates}, id_ruta_fk={self.id_ruta_fk})>"
