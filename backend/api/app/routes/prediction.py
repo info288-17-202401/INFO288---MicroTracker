@@ -17,20 +17,19 @@ URL_CRUD_MICROBUS = f"http://{settings.HOST_CRUD}:{settings.PORT_CRUD}/microbus/
 
 @router.get("/", response_model=List[PredictionResponse], status_code=200)
 def get_predictions(prediction: PredictionCreate) -> Any:
+    print(prediction)
     try:
         session = SessionLocal()
         selected_busstop = (
             session.query(BusStop).filter(BusStop.id == prediction.busstop_id).first()
         )
-        print(selected_busstop)
         microbuses = (
             session.query(Microbus)
             .filter(Microbus.line_id.in_(prediction.lines_selected))
             .all()
         )
-        print(microbuses)
         new = PredictionResponse(
-            microbus_id="XD",
+            microbus_id="GGYL12",
             line_id=1,
             time=12.0,
             distance=1.0,

@@ -7,7 +7,7 @@ class ParaderoQuerys {
   final dio = Dio();
 
   Future<List<Paradero>> getParaderos() async {
-    final response = await dio.get('${dotenv.env['API_URL']}/paraderos');
+    final response = await dio.get('${dotenv.env['API_URL']}/busstop');
     return Paradero.fromJsonList(response.data);
   }
 

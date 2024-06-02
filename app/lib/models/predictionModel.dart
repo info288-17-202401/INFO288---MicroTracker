@@ -1,18 +1,18 @@
 class Prediction {
-  String patent;
-  int line;
+  String microbus_id;
+  int line_id;
   double distance;
   double time;
   Prediction({
-    required this.patent,
-    required this.line,
+    required this.microbus_id,
+    required this.line_id,
     required this.distance,
     required this.time,
   });
 
   Prediction.fromJson(Map<String, dynamic> json)
-      : patent = json['patent'],
-        line = json['line'],
+      : microbus_id = json['microbus_id'],
+        line_id = json['line_id'],
         distance = json['distance'],
         time = json['time'];
 

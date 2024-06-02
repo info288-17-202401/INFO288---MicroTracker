@@ -26,7 +26,7 @@ class _PredictionListState extends State<PredictionList> {
       ),
       Center(
         child: Container(
-          width: 200,
+          width: 350,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -44,14 +44,92 @@ class _PredictionListState extends State<PredictionList> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 for (int i = 0; i < widget.predictions.length; i++)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    // mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(widget.predictions[i].patent.toString()),
-                      Text(widget.predictions[i].line.toString()),
-                      Text(widget.predictions[i].time.toString())
-                    ],
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      // mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          "assets/${widget.predictions[i].line_id}.png",
+                          scale: 4.0,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  "Microbus ",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    inherit: false,
+                                  ),
+                                ),
+                                Text(
+                                  widget.predictions[i].microbus_id.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    inherit: false,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "a ",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    inherit: false,
+                                  ),
+                                ),
+                                Text(
+                                  "${widget.predictions[i].distance} m",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    inherit: false,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            const Text(
+                              "Llega en",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                inherit: false,
+                              ),
+                            ),
+                            Text(
+                              "${widget.predictions[i].time} min",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                inherit: false,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   )
               ],
             ),

@@ -41,14 +41,8 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   LatLng initialCenter = LatLng(-39.819955, -73.241229);
   double initialZoom = 16;
   List<Micro> micros = [];
-  List<Prediction> predictions = [
-    Prediction(patent: "ASD", line: 1, distance: 100, time: 123)
-  ];
-  List<Paradero> paraderos = [
-    Paradero(id: 1, position: LatLng(-39.816801, -73.243145)),
-    Paradero(id: 2, position: LatLng(-39.816307, -73.243923)),
-    Paradero(id: 3, position: LatLng(-39.817955, -73.244679))
-  ];
+  List<Prediction> predictions = [];
+  List<Paradero> paraderos = [];
   LatLng? _currentPosition;
   Location location = Location();
 
@@ -57,7 +51,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
     super.initState();
     getCurrentPosition();
     getMicrosPosition();
-    // getParaderos();
+    getParaderos();
     location.onLocationChanged.listen((LocationData newPosition) {
       setState(() {
         _currentPosition =
@@ -97,6 +91,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   void getPredictions(int paraderoId) async {
     final response =
         await ParaderoQuerys().getPredictions(widget.linesSelected, paraderoId);
+    print(response);
     if (response != null) {
       setState(() {
         predictions = response;
@@ -187,7 +182,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                           setState(() {
                             showPredictions = true;
                           });
-                          // getPredictions(paradero.id);
+                          getPredictions(paradero.id);
                           print("Paradero ${paradero.id} clicked");
                           print('ENV: ${dotenv.env['API_URL']}');
                         },
