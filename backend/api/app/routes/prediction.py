@@ -10,6 +10,8 @@ import requests
 from fastapi import APIRouter, HTTPException
 from app.models.serialized_models import PredictionResponse, PredictionCreate
 from app.models.models import BusStop, Microbus
+from geoalchemy2.functions import ST_X, ST_Y
+
 
 router = APIRouter()
 URL_CRUD_MICROBUS = f"http://{settings.HOST_CRUD}:{settings.PORT_CRUD}/microbus/"
@@ -23,11 +25,15 @@ def get_predictions(prediction: PredictionCreate) -> Any:
         selected_busstop = (
             session.query(BusStop).filter(BusStop.id == prediction.busstop_id).first()
         )
+        x = session.query(ST_X(selected_busstop.coordinates)).scalar()
+        y = session.query(ST_Y(selected_busstop.coordinates)).scalar()
+        print(x, y)
         microbuses = (
             session.query(Microbus)
             .filter(Microbus.line_id.in_(prediction.lines_selected))
             .all()
         )
+        print(microbuses)
         new = PredictionResponse(
             microbus_id="GGYL12",
             line_id=1,
