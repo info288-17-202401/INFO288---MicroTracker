@@ -91,3 +91,11 @@ class BusStop(Base):
 
     def __repr__(self):
         return f"<BusStop(id={self.id}, coordinates={self.coordinates}, id_ruta_fk={self.id_ruta_fk})>"
+
+
+class MicrobusSensor(Base):
+    __tablename__ = "microbus_sensor"
+    patent = Column(String, primary_key=True, nullable=False)
+
+    def __repr__(self):
+        return f"<Microbus(patent={self.patent})>"

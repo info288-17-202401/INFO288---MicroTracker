@@ -31,9 +31,9 @@ CREATE TABLE model (
 
 CREATE TABLE route (
     id SERIAL PRIMARY KEY,
-    number INTEGER NOT NULL,
-    date DATE NOT NULL,
-    currently BOOLEAN NOT NULL
+    route GEOMETRY(MultiPoint, 4326) NOT NULL,
+    line_id INTEGER NOT NULL,
+    FOREIGN KEY (line_id) REFERENCES line(number)
 );
 
 CREATE TABLE sector (
@@ -49,10 +49,17 @@ CREATE TABLE microbus (
     FOREIGN KEY (brand_id) REFERENCES brand(id)
 );
 
--- Se elimina bustop?
 CREATE TABLE bus_stop (
     id SERIAL PRIMARY KEY,
     coordinates GEOMETRY(Point, 4326) NOT NULL,
-    -- id_ruta_fk INTEGER NOT NULL,
+    id_ruta_fk INTEGER NOT NULL,
     FOREIGN KEY (id_ruta_fk) REFERENCES route(id)
+);
+
+CREATE TABLE route_busstop (
+    id SERIAL PRIMARY KEY,
+    id_ruta_fk INTEGER NOT NULL,
+    id_busstop_fk INTEGER NOT NULL,
+    FOREIGN KEY (id_ruta_fk) REFERENCES route(id),
+    FOREIGN KEY (id_busstop_fk) REFERENCES bus_stop(id)
 );

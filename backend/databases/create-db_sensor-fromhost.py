@@ -7,11 +7,7 @@ import sys
 try:
     sys.path.append(".")
     from api.app.models.models import (
-        Line,
-        Brand,
-        Model,
-        Sector,
-        Microbus,
+        MicrobusSensor,
     )
     from api.app.core.Settings import SQLALCHEMY_DATABASE_URL
 except Exception as e:
@@ -25,7 +21,7 @@ except Exception as e:
 from sqlalchemy import create_engine
 
 DATABASE_URL = str(
-    SQLALCHEMY_DATABASE_URL("postgres", "postgres", "localhost", 5432, "db_linea")
+    SQLALCHEMY_DATABASE_URL("postgres", "postgres", "localhost", 5432, "db_sensor")
 )
 # engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URL))
 engine = create_engine(DATABASE_URL)
@@ -68,40 +64,13 @@ if __name__ == "__main__":
     try:
         session = SessionLocal()
         print("Inserting data...")
-        with open("databases/staticData/line.csv", "r") as file:
-            lines = file.readlines()
-            for row in lines[1:]:
-                number, color = row.split(",")
-                linea = Line(number=number, color=color)
-                linea_d = addToDB(linea, queryID(linea, "number"))
-                if linea_d:
-                    linea = linea_d
-
-        # linea = Line(number=1, color="Rojo")
-        # linea_d = addToDB(linea, queryID(linea, "number"))
-        # if linea_d:
-        #     linea = linea_d
-        with open("databases/staticData/brand.csv", "r") as file:
-            brands = file.readlines()
-            for row in brands[1:]:
-                brand = Brand(name=row)
-                brand_d = addToDB(brand, queryID(brand, "id"))
-                if brand_d:
-                    brand = brand_d
-        # brand = Brand(name="Mercedes Benz")
-        # brand_d = addToDB(brand, queryID(brand, "id"))
-        # if brand_d:
-        #     brand = brand_d
         with open("databases/staticData/micros.csv", "r") as file:
             micros = file.readlines()
             for row in micros[1:]:
                 patent, line_id, brand_id = row.split(",")
-                micro = Microbus(patent=patent, line_id=line_id, brand_id=brand_id)
+                micro = MicrobusSensor(patent=patent)
                 addToDB(micro, queryID(micro, "patent"))
-        # for i in range(CANTIDAD_DATOS):
-        #     micro = Microbus(patent=f"{i}k", line_id=linea.number, brand_id=brand.id)
-        #     addToDB(micro, queryID(micro, "patent"))
-        micro = session.query(Microbus).all()
+        micro = session.query(MicrobusSensor).all()
         print(micro)
     finally:
         session.close()

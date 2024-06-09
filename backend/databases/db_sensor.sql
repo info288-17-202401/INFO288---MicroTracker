@@ -9,7 +9,7 @@ CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
 CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 \c db_sensor
 
-CREATE TABLE microbus (
+CREATE TABLE microbus_sensor (
     patent VARCHAR PRIMARY KEY
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE ubication (
     -- Use 'Point' instead of 'POINT' because POINT gets error
     coordinates GEOMETRY(Point, 4326) NOT NULL,  
     currently BOOLEAN NOT NULL,
-    FOREIGN KEY (patent) REFERENCES microbus(patent)
+    FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
 );
 
 
@@ -31,7 +31,7 @@ CREATE TABLE passengers (
     number INTEGER NOT NULL,
     date DATE NOT NULL,
     currently BOOLEAN NOT NULL,
-    FOREIGN KEY (patent) REFERENCES microbus(patent)
+    FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
 );
 
 
@@ -41,7 +41,7 @@ CREATE TABLE velocity (
     date DATE NOT NULL,
     patent VARCHAR NOT NULL,
     currently BOOLEAN NOT NULL,
-    FOREIGN KEY (patent) REFERENCES microbus(patent)
+    FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
 );
 
 -- Creamos una función genérica para actualizar el estado 'currently'

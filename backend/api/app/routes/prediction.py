@@ -28,6 +28,7 @@ def get_predictions(prediction: PredictionCreate) -> Any:
         x = session.query(ST_X(selected_busstop.coordinates)).scalar()
         y = session.query(ST_Y(selected_busstop.coordinates)).scalar()
         print(x, y)
+        # routes = session.query()
         microbuses = (
             session.query(Microbus)
             .filter(Microbus.line_id.in_(prediction.lines_selected))
