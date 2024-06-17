@@ -13,10 +13,12 @@ CREATE TABLE microbus_sensor (
     patent VARCHAR PRIMARY KEY
 );
 
-CREATE TABLE ubication (
+CREATE TABLE estado_microbus (
     id SERIAL PRIMARY KEY,
     patent VARCHAR NOT NULL,
     date DATE NOT NULL,
+    velocity FLOAT NOT NULL,
+    cantidad_pasajeros INTEGER NOT NULL,
     -- date DATE NOT NULL = NOW(),
     -- Use 'Point' instead of 'POINT' because POINT gets error
     coordinates GEOMETRY(Point, 4326) NOT NULL,  
@@ -24,25 +26,36 @@ CREATE TABLE ubication (
     FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
 );
 
+-- CREATE TABLE ubication (
+--     id SERIAL PRIMARY KEY,
+--     patent VARCHAR NOT NULL,
+--     date DATE NOT NULL,
+--     -- date DATE NOT NULL = NOW(),
+--     -- Use 'Point' instead of 'POINT' because POINT gets error
+--     coordinates GEOMETRY(Point, 4326) NOT NULL,  
+--     currently BOOLEAN NOT NULL,
+--     FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
+-- );
 
-CREATE TABLE passengers (
-    id SERIAL PRIMARY KEY,
-    patent VARCHAR NOT NULL,
-    number INTEGER NOT NULL,
-    date DATE NOT NULL,
-    currently BOOLEAN NOT NULL,
-    FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
-);
+
+-- CREATE TABLE passengers (
+--     id SERIAL PRIMARY KEY,
+--     patent VARCHAR NOT NULL,
+--     number INTEGER NOT NULL,
+--     date DATE NOT NULL,
+--     currently BOOLEAN NOT NULL,
+--     FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
+-- );
 
 
-CREATE TABLE velocity (
-    id SERIAL PRIMARY KEY,
-    velocity FLOAT NOT NULL,
-    date DATE NOT NULL,
-    patent VARCHAR NOT NULL,
-    currently BOOLEAN NOT NULL,
-    FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
-);
+-- CREATE TABLE velocity (
+--     id SERIAL PRIMARY KEY,
+--     velocity FLOAT NOT NULL,
+--     date DATE NOT NULL,
+--     patent VARCHAR NOT NULL,
+--     currently BOOLEAN NOT NULL,
+--     FOREIGN KEY (patent) REFERENCES microbus_sensor(patent)
+-- );
 
 -- Creamos una función genérica para actualizar el estado 'currently'
 CREATE OR REPLACE FUNCTION update_currently()
@@ -58,24 +71,29 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 -- Creamos un trigger genérico para la tabla 'ubication'
-CREATE TRIGGER update_currently_ubication
-BEFORE INSERT ON ubication
+CREATE TRIGGER update_currently_estado_microbus
+BEFORE INSERT ON estado_microbus
 FOR EACH ROW
 EXECUTE FUNCTION update_currently();
 
--- Creamos un trigger genérico para la tabla 'velocity'
-CREATE TRIGGER update_currently_velocity
-BEFORE INSERT ON velocity
-FOR EACH ROW
-EXECUTE FUNCTION update_currently();
+-- -- Creamos un trigger genérico para la tabla 'ubication'
+-- CREATE TRIGGER update_currently_ubication
+-- BEFORE INSERT ON ubication
+-- FOR EACH ROW
+-- EXECUTE FUNCTION update_currently();
 
--- Creamos un trigger genérico para la tabla 'passengers'
-CREATE TRIGGER update_currently_passengers
-BEFORE INSERT ON passengers
-FOR EACH ROW
-EXECUTE FUNCTION update_currently();
+-- -- Creamos un trigger genérico para la tabla 'velocity'
+-- CREATE TRIGGER update_currently_velocity
+-- BEFORE INSERT ON velocity
+-- FOR EACH ROW
+-- EXECUTE FUNCTION update_currently();
+
+-- -- Creamos un trigger genérico para la tabla 'passengers'
+-- CREATE TRIGGER update_currently_passengers
+-- BEFORE INSERT ON passengers
+-- FOR EACH ROW
+-- EXECUTE FUNCTION update_currently();
 
 ALTER TABLE ubication ALTER COLUMN date SET DEFAULT NOW();
 ALTER TABLE passengers ALTER COLUMN date SET DEFAULT NOW();
