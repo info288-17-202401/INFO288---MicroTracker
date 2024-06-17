@@ -5,41 +5,21 @@ from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 
 class Microbus(Base):
-    __tablename__ = 'microbus'
+    __tablename__ = 'microbus_sensor'
     patent = Column(String, primary_key=True, nullable=False)
     
     def __repr__(self):
         return f"<Microbus(patent={self.patent}>"
 
-class Ubication(Base):
-    __tablename__ = 'ubication'
+class MicrobusState(Base):
+    __tablename__ = 'microbus_state'
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
+    patent = Column(String, ForeignKey('microbus_sensor.patent'), nullable=False)
     date = Column(Date, nullable=False)
-    coordinates = Column(Geometry('POINT', srid=4326), nullable=False)  # Use 'POINT' instead of 'POINT' and '4326' instead of 4326
-    currently = Column(Boolean, nullable=False)
-
-    def __repr__(self):
-        return f"<Ubication(id={self.id}, patent={self.patent}, date={self.date}, coordinates={self.coordinates}, currently={self.currently})>"
-
-class Passengers(Base):
-    __tablename__ = 'passengers'
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
-    number = Column(Integer, nullable=False)
-    date = Column(Date, nullable=False)
-    currently = Column(Boolean, nullable=False)
-
-    def __repr__(self):
-        return f"<Passengers(id={self.id}, patent={self.patent}, number={self.number}, date={self.date}, currently={self.currently})>"
-
-class Velocity(Base):
-    __tablename__ = 'velocity'
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     velocity = Column(Float, nullable=False)
-    date = Column(Date, nullable=False)
-    patent = Column(String, ForeignKey('microbus.patent'), nullable=False)
+    passengers = Column(Integer, nullable=False)  
+    coordinates = Column(Geometry('POINT', srid=4326), nullable=False)
     currently = Column(Boolean, nullable=False)
 
     def __repr__(self):
-        return f"<Velocity(id={self.id}, velocity={self.velocity}, date={self.date}, patent={self.patent}, currently={self.currently})>"
+        return f"<MicrobusState(id={self.id}, patent={self.patent}, date={self.date}, velocity={self.velocity}, passengers={self.passengers}, coordinates={self.coordinates}, currently={self.currently})>"
