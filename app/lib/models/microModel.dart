@@ -7,6 +7,8 @@ class Micro {
   // String model;
   int line;
   LatLng? currentPosition;
+  double velocity;
+  int passengers;
 
   Micro({
     // required this.id,
@@ -15,6 +17,8 @@ class Micro {
     // required this.model,
     required this.line,
     required this.currentPosition,
+    required this.velocity,
+    required this.passengers,
   });
   Micro.fromJson(Map<String, dynamic> json)
       // : id = json['id'],
@@ -25,7 +29,9 @@ class Micro {
         currentPosition = LatLng(
           json['coordinates']["x"],
           json['coordinates']["y"],
-        );
+        ),
+        velocity = json['velocity'],
+        passengers = json['passengers'];
   static List<Micro> fromJsonList(List<dynamic> jsonList) {
     return jsonList.map((json) => Micro.fromJson(json)).toList();
   }

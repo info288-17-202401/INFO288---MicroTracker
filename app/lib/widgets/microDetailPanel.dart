@@ -88,7 +88,11 @@ class _MicroDetailPanelState extends State<MicroDetailPanel> {
                           color: Colors.black, fontSize: 20, inherit: false),
                     ),
                     Text(
-                      "0",
+                      context
+                          .watch<MicroProvider>()
+                          .currentMicro
+                          .passengers
+                          .toString(),
                       style: const TextStyle(
                           color: Colors.black, fontSize: 20, inherit: false),
                     )
@@ -104,7 +108,11 @@ class _MicroDetailPanelState extends State<MicroDetailPanel> {
                           color: Colors.black, fontSize: 20, inherit: false),
                     ),
                     Text(
-                      "0",
+                      context
+                          .watch<MicroProvider>()
+                          .currentMicro
+                          .velocity
+                          .toString(),
                       style: const TextStyle(
                           color: Colors.black, fontSize: 20, inherit: false),
                     )

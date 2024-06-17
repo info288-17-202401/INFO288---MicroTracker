@@ -4,12 +4,15 @@ import "package:latlong2/latlong.dart";
 
 class MicroProvider with ChangeNotifier {
   Micro _currentMicro = Micro(
-      // id: "No seleccionado",
-      patent: "None",
-      brand: 0,
-      // model: "No disponible",
-      line: 0,
-      currentPosition: null);
+    // id: "No seleccionado",
+    patent: "None",
+    brand: 0,
+    // model: "No disponible",
+    line: 0,
+    currentPosition: null,
+    velocity: 0.0,
+    passengers: 0,
+  );
   List<LatLng?> _currentRoute = [];
 
   Micro get currentMicro => _currentMicro;
