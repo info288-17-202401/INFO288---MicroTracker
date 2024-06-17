@@ -87,10 +87,9 @@ class BusStop(Base):
     __tablename__ = "bus_stop"
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     coordinates = Column(Geometry("POINT", srid=4326), nullable=False)
-    id_ruta_fk = Column(Integer, ForeignKey("route.id"), nullable=False)
 
     def __repr__(self):
-        return f"<BusStop(id={self.id}, coordinates={self.coordinates}, id_ruta_fk={self.id_ruta_fk})>"
+        return f"<BusStop(id={self.id}, coordinates={self.coordinates})>"
 
 
 class MicrobusSensor(Base):
