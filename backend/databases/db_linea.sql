@@ -51,7 +51,7 @@ CREATE TABLE microbus (
 
 CREATE TABLE bus_stop (
     id SERIAL PRIMARY KEY,
-    coordinates GEOMETRY(Point, 4326) NOT NULL,
+    coordinates GEOMETRY(Point, 4326) NOT NULL
 );
 
 CREATE TABLE route_busstop (

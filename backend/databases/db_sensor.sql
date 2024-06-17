@@ -13,12 +13,12 @@ CREATE TABLE microbus_sensor (
     patent VARCHAR PRIMARY KEY
 );
 
-CREATE TABLE estado_microbus (
+CREATE TABLE microbus_state (
     id SERIAL PRIMARY KEY,
     patent VARCHAR NOT NULL,
     date DATE NOT NULL,
     velocity FLOAT NOT NULL,
-    cantidad_pasajeros INTEGER NOT NULL,
+    passengers INTEGER NOT NULL,
     -- date DATE NOT NULL = NOW(),
     -- Use 'Point' instead of 'POINT' because POINT gets error
     coordinates GEOMETRY(Point, 4326) NOT NULL,  
@@ -73,7 +73,7 @@ $$ LANGUAGE plpgsql;
 
 -- Creamos un trigger genérico para la tabla 'ubication'
 CREATE TRIGGER update_currently_estado_microbus
-BEFORE INSERT ON estado_microbus
+BEFORE INSERT ON microbus_state
 FOR EACH ROW
 EXECUTE FUNCTION update_currently();
 
@@ -95,6 +95,6 @@ EXECUTE FUNCTION update_currently();
 -- FOR EACH ROW
 -- EXECUTE FUNCTION update_currently();
 
-ALTER TABLE ubication ALTER COLUMN date SET DEFAULT NOW();
-ALTER TABLE passengers ALTER COLUMN date SET DEFAULT NOW();
-ALTER TABLE velocity ALTER COLUMN date SET DEFAULT NOW();
+-- ALTER TABLE ubication ALTER COLUMN date SET DEFAULT NOW();
+-- ALTER TABLE passengers ALTER COLUMN date SET DEFAULT NOW();
+-- ALTER TABLE velocity ALTER COLUMN date SET DEFAULT NOW();
