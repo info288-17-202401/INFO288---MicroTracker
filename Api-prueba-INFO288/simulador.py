@@ -3,7 +3,7 @@ import requests
 import time
 
 # Definir la URL de la API
-api_url = "http://localhost:4000/ubication"  # Reemplace con la URL real de su API
+api_url = "http://localhost:4000/microbusstate"  # Reemplace con la URL real de su API
 
 # Abrir el archivo CSV
 with open("rutas_micros.csv", "r") as csvfile:
@@ -12,18 +12,19 @@ with open("rutas_micros.csv", "r") as csvfile:
     # Iterar sobre cada línea del CSV
     for row in reader:
         # Extraer datos de la fila actual
-        patent = "XD"
+        patent = "3AN9BM"
         x = row[1]
         y = row[2]
 
         # Crear el diccionario JSON con los datos
         # data = {"patent": patent, "coordinates": {"x": x, "y": y}}
         data = {
-            "id": 14,
             "patent": patent,
             "date": "2023-11-21",
             "currently": True,
             "coordinates": {"x": x, "y": y},
+            "velocity": 50,
+            "passengers": 25,
         }
 
         # Enviar la petición POST a la API
