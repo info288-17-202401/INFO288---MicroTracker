@@ -7,7 +7,7 @@ Base = declarative_base()
 class Microbus(Base):
     __tablename__ = 'microbus_sensor'
     patent = Column(String, primary_key=True, nullable=False)
-    # line = Column(Integer, nullable=False)
+    line = Column(Integer, nullable=False)
     def __repr__(self):
         return f"<Microbus(patent={self.patent}, line={self.line}>"
 

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.routes.app_routes import api_router
-from app.core.conexion_db import SessionLocal1, SessionLocal2
-from sqlalchemy.orm import sessionmaker
+from app.core.conexion_db import sessions
+# from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
 
 app = FastAPI()
@@ -13,13 +13,12 @@ def index():
 
 @app.get('/db')
 def index():
-    sessions = [SessionLocal1(), SessionLocal2()]
     for session in sessions:
         try:
             session.execute(text("SELECT 1"))
         except Exception as e:
             return {
-                'message': 'Cant connect to db',
+                'message': 'Cant connect to db ',
                 'description': str(e)
             }
         finally:

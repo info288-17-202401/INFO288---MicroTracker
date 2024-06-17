@@ -14,6 +14,7 @@ SE AGREGO CLASE RESPONSE PARA TODAS
 class MicrobusStateSerialized(BaseModel):
     # id: int
     patent: str
+    line: int
     date: str
     velocity: float
     passengers: int
@@ -29,7 +30,7 @@ class MicrobusStateResponse(MicrobusStateSerialized):
 
 class MicrobusSerialized(BaseModel):
     patent: str
-    # line: int
+    line: int
     class Config:
         from_attributes = True
 
