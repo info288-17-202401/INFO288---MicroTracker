@@ -2,16 +2,17 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 # from app.models.models import Base
-from app.core.Settings import database_1, database_2
+from app.core.Settings import databases_settings
 
-# settings = Settings()
-# print(settings.__repr__())
-print("URL:", database_1.SQLALCHEMY_DATABASE_URL)
-print("URL:", database_2.SQLALCHEMY_DATABASE_URL)
-engine1 = create_engine(str(database_1.SQLALCHEMY_DATABASE_URL))
-engine2 = create_engine(str(database_1.SQLALCHEMY_DATABASE_URL))
-SessionLocal1 = sessionmaker(bind=engine1)
-SessionLocal2 = sessionmaker(bind=engine1)
+sessions = []
+for database in databases_settings:
+    print("URL:", database.SQLALCHEMY_DATABASE_URL)
+    engine = create_engine(str(database.SQLALCHEMY_DATABASE_URL))
+    sessions.append(sessionmaker(bind=engine))
 
-
-
+def getCorrectSession(microbus_state):
+    pos = 0
+    while(not databases_settings[pos].LinesContainsLine(microbus_state)):
+        # logger.debug(f"Line {microbus_state.line} not in database {pos}")
+        pos = pos + 1
+    return sessions[pos]

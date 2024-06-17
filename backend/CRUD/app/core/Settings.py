@@ -10,11 +10,11 @@ from pydantic import (
 )
 # from pydantic_settings import SettingsConfigDict, BaseSettings
 from dotenv import load_dotenv
-from os import getenv
+from os import getenv, path
 import logging
-from app.core.utils import getJsonFile
+from app.core.utils import getJsonFile, parse_listenv, delete_trash
 
-logging.basicConfig(level=logging.DEBUG)
+load_dotenv()
 
 def SQLALCHEMY_DATABASE_URL(user, password, server, port, db) -> PostgresDsn:
         return PostgresDsn.build(
@@ -26,12 +26,6 @@ def SQLALCHEMY_DATABASE_URL(user, password, server, port, db) -> PostgresDsn:
             path=db,
         )
 
-def parse_cors(v: Any) -> list[str] | str:
-    if isinstance(v, str) and not v.startswith("["):
-        return [i.strip() for i in v.split(",")]
-    elif isinstance(v, list | str):
-        return v
-    raise ValueError(v)
 
 class Settings():
     def __init__(self, configfile: str) -> None:
@@ -44,7 +38,6 @@ class Settings():
            
         json_file: Dict[str, Any] = getJsonFile(self.config_file)
 
-        load_dotenv()
         self.ID : int = int(json_file["ID"])
         self.LINES_IDS: list[int] = json_file["LINES_IDS"]
         # POSTGRES_DB: str = str(getenv("POSTGRES_DB"))
@@ -59,12 +52,20 @@ class Settings():
         self.LOG_LEVEL: str = str(getenv("LOG_LEVEL"))
         self.SQLALCHEMY_DATABASE_URL : PostgresDsn = SQLALCHEMY_DATABASE_URL(self.POSTGRES_USER, self.POSTGRES_PASSWORD, self.POSTGRES_SERVER, self.POSTGRES_PORT, self.POSTGRES_DB)
     
+    def LinesContainsLine(self, line) -> list[int]:
+        return True if line in self.LINES_IDS  else  False
     # model_config = SettingsConfigDict(
     #     env_file=".env", env_ignore_empty=True, extra="ignore"
     # )
 
     def __repr__(self) -> str:
         return f"Settings({self.dict()})"
-    
-database_1 = Settings("/app/app/core/database1.json")
-database_2 = Settings("/app/app/core/database2.json") 
+
+
+CONFIG_FILES = parse_listenv(getenv("CONFIG_FILES"))
+databases_settings = []
+FILES_FOLDER = str(getenv("FILES_FOLDER"))
+for config_file in CONFIG_FILES:
+    database = Settings(path.join(FILES_FOLDER,delete_trash(config_file)))
+    databases_settings.append(database)
+logging.basicConfig(level=logging.DEBUG)

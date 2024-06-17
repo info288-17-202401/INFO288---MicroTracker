@@ -8,9 +8,13 @@ import sys
 # def setup_logging():
 #     logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 load_dotenv()
-
-PORT = int(getenv("PORT"))
-HOST = str(getenv("HOST"))
+try:
+    PORT = int(getenv("PORT"))
+    HOST = str(getenv("HOST"))
+except Exception as e:
+    print("Error al cargar las variables de entorno")
+    HOST = "0.0.0.0"
+    PORT = 4000
 
 def run_app():
     uvicorn.run(app="app.app:app", port=PORT, host=HOST, loop='asyncio', log_level='debug', reload=True)

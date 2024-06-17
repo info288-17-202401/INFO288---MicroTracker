@@ -1,6 +1,12 @@
 import json
 import sys
 import os
+from typing import (
+    # Annotated, 
+    Any, 
+    # Literal, 
+    # Dict
+    )
 # from pydantic import PostgresDsn
 
 def getJsonFile(filename: str):
@@ -11,7 +17,7 @@ def getJsonFile(filename: str):
         return json_file
     except Exception as e:
         print(e)
-        print("Json not found")
+        print(f"Json named {filename} not found")
 
 # Abrir y cargar el archivo JSON
 def getJsonFileFromPath():
@@ -47,3 +53,14 @@ def getJsonFilesFromFolder():
     else:
         print("Execute using ./main.py <json_folder>")
         sys.exit(1)
+
+def parse_listenv(v: Any) -> list[str] | str:
+    if isinstance(v, str) and not v.startswith("["):
+        return [i.strip() for i in v.split(",")]
+    elif isinstance(v, list | str):
+        return v
+    print("PARSE ERROR ")
+    raise ValueError(v)
+
+def delete_trash(v: Any) -> str:
+    return v.replace("\n", "").replace(" ", "").replace("\t", "").replace("'", "").replace('"', "").replace("[", "").replace("]", "").replace("{", "").replace("}", "")
