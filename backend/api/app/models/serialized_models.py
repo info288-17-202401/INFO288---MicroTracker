@@ -78,3 +78,11 @@ class PredictionCreate(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class RouteBusStopSerialized(BaseModel):
+    route_id: int
+    bus_stop_id: int
+
+    class Config:
+        from_attributes = True

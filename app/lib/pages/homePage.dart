@@ -26,9 +26,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getLines();
-    // setState(() {
-    //   lines = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    // });
   }
 
   void setCurrentRoute(List<LatLng> route) {
@@ -40,7 +37,6 @@ class _HomePageState extends State<HomePage> {
   void getLines() async {
     List<Line> response = await LineQuerys().getLines();
     List<int> linesNumbers = response.map((line) => line.number).toList();
-    print(linesNumbers);
     setState(() {
       lines = linesNumbers;
     });
