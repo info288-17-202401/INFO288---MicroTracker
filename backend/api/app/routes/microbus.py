@@ -54,6 +54,9 @@ def get_microbuses(id_lines: str | None = Query(None)) -> Any:
             logger.debug(f"Microbus data: {microbus_data}\n\nMicrobus db: {microbus_db}")
             combined_microbus = MicrobusResponse(
                 patent=microbus_data.get("patent"),
+                velocity=microbus_data.get("velocity"),
+                passengers=microbus_data.get("passengers"),
+                date= microbus_data.get("date"),
                 #ITERA SOBRE LOS MICROBUSES DE LA BD Y BUSCA EL QUE TENGA LA PATENTE DE LA SOLICITUD
                 line_id=next(filter(lambda microbus: getattr(microbus, "patent") ==  microbus_data.get("patent"),microbuses_from_db), None).line_id,
                 coordinates=microbus_data.get("coordinates") if microbus_data else None,
