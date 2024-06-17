@@ -52,8 +52,6 @@ CREATE TABLE microbus (
 CREATE TABLE bus_stop (
     id SERIAL PRIMARY KEY,
     coordinates GEOMETRY(Point, 4326) NOT NULL,
-    id_ruta_fk INTEGER NOT NULL,
-    FOREIGN KEY (id_ruta_fk) REFERENCES route(id)
 );
 
 CREATE TABLE route_busstop (
