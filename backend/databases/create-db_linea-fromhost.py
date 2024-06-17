@@ -12,6 +12,9 @@ try:
         Model,
         Sector,
         Microbus,
+        Route,
+        BusStop,
+        RouteBusStop,
     )
     from api.app.core.Settings import SQLALCHEMY_DATABASE_URL
 except Exception as e:
@@ -22,7 +25,7 @@ except Exception as e:
     print("ERROR: ", e)
     sys.exit(1)
 # from core.conexion_db import engine
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
 
 DATABASE_URL = str(
     SQLALCHEMY_DATABASE_URL("postgres", "postgres", "localhost", 5432, "db_linea")
@@ -101,6 +104,63 @@ if __name__ == "__main__":
         # for i in range(CANTIDAD_DATOS):
         #     micro = Microbus(patent=f"{i}k", line_id=linea.number, brand_id=brand.id)
         #     addToDB(micro, queryID(micro, "patent"))
+
+        ##Añadir las rutas
+        routes = {}
+        with open("databases/staticData/data.csv", "r") as file:
+            data = file.readlines()
+
+            for row in data[1:]:
+                line, x, y, isBusStop, direction = row.split(",")
+                if line not in routes:
+                    routes[line] = {}
+                if direction not in routes[line]:
+                    routes[line][direction] = []
+                routes[line][direction].append((x, y))
+        for line in routes.keys():
+            for direction in routes[line].keys():
+                multipoint_wkt = "MULTIPOINT({})".format(
+                    ", ".join(
+                        [
+                            "({} {})".format(point[0], point[1])
+                            for point in routes[line][direction]
+                        ]
+                    )
+                )
+                new_route = Route(route=multipoint_wkt, line_id=line)
+                addToDB(new_route, queryID(new_route, "id"))
+
+        ##Añadir los paraderos
+        with open("databases/staticData/data.csv", "r") as file:
+            data = file.readlines()
+            for row in data[1:]:
+                line, x, y, isBusStop, direction = row.split(",")
+                if isBusStop == "1":
+                    point_wkt = "POINT({} {})".format(x, y)
+                    new_busStop = BusStop(coordinates=point_wkt)
+                    session.add(new_busStop)
+                    session.commit()
+
+                    # Using ST_DWithin to find the route that has the bus stop point within a very small distance
+                    foundedRoute = (
+                        session.query(Route)
+                        .filter(
+                            func.ST_DWithin(
+                                Route.route, func.ST_GeomFromText(point_wkt, 4326), 0
+                            )
+                        )
+                        .first()
+                    )
+
+                    if foundedRoute:
+                        new_relation = RouteBusStop(
+                            id_busstop_fk=new_busStop.id, id_ruta_fk=foundedRoute.id
+                        )
+                        session.add(new_relation)
+                        session.commit()
+
+        ##Añadir las relaciones entre ruta y paradero
+
         micro = session.query(Microbus).all()
         print(micro)
     finally:

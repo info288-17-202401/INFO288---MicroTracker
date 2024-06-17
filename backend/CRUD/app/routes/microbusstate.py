@@ -7,10 +7,14 @@ from app.core.conexion_db import SessionLocal1, SessionLocal2, database_1, datab
 from fastapi import APIRouter, HTTPException, Query
 
 # Como retorna la api
-from app.models.serialized_models import MicrobusStateSerialized, MicrobusStateResponse, Point
+from app.models.serialized_models import (
+    MicrobusStateSerialized,
+    MicrobusStateResponse,
+    Point,
+)
 from app.models.models import MicrobusState  # Obtiene desde la BD
 import logging
-from geoalchemy2.shape import to_shape 
+from geoalchemy2.shape import to_shape
 
 
 router = APIRouter()
@@ -27,6 +31,7 @@ NO SE USARA
 """
 sessions = [SessionLocal1(), SessionLocal2()]
 
+
 @router.get("/", response_model=List[MicrobusStateResponse], status_code=200)
 def get_microbus_states(patent: str | None = Query(None)) -> Any:
     """
@@ -35,7 +40,11 @@ def get_microbus_states(patent: str | None = Query(None)) -> Any:
     try:
         session = SessionLocal1()
         if patent:
-            microbus_states = session.query(MicrobusState).filter(MicrobusState.patent == patent).all()
+            microbus_states = (
+                session.query(MicrobusState)
+                .filter(MicrobusState.patent == patent)
+                .all()
+            )
         else:
             microbus_states = session.query(MicrobusState).all()
         logger.debug(f"MicrobusState: {microbus_states}")
@@ -55,7 +64,7 @@ def get_microbus_states(patent: str | None = Query(None)) -> Any:
                 velocity=state.velocity,
                 passengers=state.passengers,
                 coordinates=Point(x=coordinates.x, y=coordinates.y),
-                currently=state.currently
+                currently=state.currently,
             )
             microbus_states_serialized.append(state_serialized)
         logger.debug(f"MicrobusState serialized: {microbus_states_serialized}")
@@ -94,7 +103,7 @@ def create_state(microbus_state: MicrobusStateSerialized) -> Any:
     Create microbus_state.
     """
     try:
-   
+
         # if microbus_state.line in database_1.LINES_IDS:
         #     session = SessionLocal1()
         # elif microbus_state.line in database_2.LINES_IDS:
@@ -103,7 +112,7 @@ def create_state(microbus_state: MicrobusStateSerialized) -> Any:
         microbus_state = session.add(
             MicrobusState(
                 patent=microbus_state.patent,
-                line=microbus_state.line,
+                # line=microbus_state.line,
                 date=microbus_state.date,
                 velocity=microbus_state.velocity,
                 passengers=microbus_state.passengers,

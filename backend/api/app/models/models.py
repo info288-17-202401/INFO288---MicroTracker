@@ -70,16 +70,15 @@ class Microbus(Base):
         return f"<Microbus(patent={self.patent}, line_id={self.line_id}, brand_id={self.brand_id})>"
 
 
-##TODO: Cambiar el modelo de ruta con el nuevo modelo de la bd
 class Route(Base):
     __tablename__ = "route"
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    number = Column(Integer, nullable=False)
-    date = Column(Date, nullable=False)
-    currently = Column(Boolean, nullable=False)
+
+    id = Column(Integer, primary_key=True)
+    route = Column(Geometry("MULTIPOINT", srid=4326), nullable=False)
+    line_id = Column(Integer, ForeignKey("line.number"), nullable=False)
 
     def __repr__(self):
-        return f"<Route(id={self.id}, number={self.number}, date={self.date}, currently={self.currently})>"
+        return f"<Route(id={self.id}, route={self.route}, line_id={self.line_id})>"
 
 
 ##Pensar si ponerle una flag a la ubicacion para decir que es un paradero
@@ -98,3 +97,11 @@ class MicrobusSensor(Base):
 
     def __repr__(self):
         return f"<Microbus(patent={self.patent})>"
+
+
+class RouteBusStop(Base):
+    __tablename__ = "route_busstop"
+
+    id = Column(Integer, primary_key=True)
+    id_ruta_fk = Column(Integer, ForeignKey("route.id"), nullable=False)
+    id_busstop_fk = Column(Integer, ForeignKey("bus_stop.id"), nullable=False)
