@@ -3,7 +3,7 @@ from typing import (
     # Optional,
     List,
 )
-from app.core.conexion_db import SessionLocal
+from app.core.conexion_db import SessionLocal1, SessionLocal2, database_1, database_2
 
 # from sqlalchemy.orm import sessionmaker
 from fastapi import APIRouter, HTTPException, Query
@@ -27,7 +27,7 @@ def get_microbuses() -> Any:
     Retrieve all microbuses from line, if there's no id line, get all the microbuses.
     """
     try:
-        session = SessionLocal()
+        session = SessionLocal1()
         microbuses = session.query(Microbus).all()
         microbuses_response = []
         for microbus in microbuses:
@@ -65,7 +65,7 @@ def get_microbuses() -> Any:
 # @router.get("/{patent}", response_model=MicrobusResponse, status_code=200)
 # def get_microbus(patent: str):
 #     try:
-#         session = SessionLocal()
+#         session = SessionLocal1()
 
 #         # Obtener el microbús específico por su patente
 #         microbus = session.query(Microbus).filter(Microbus.patent == patent).first()
@@ -116,7 +116,11 @@ def create_microbus(microbus: MicrobusSerialized) -> Any:
     Get item by ID.
     """
     try:
-        session = SessionLocal()
+        # if microbus.line in database_1.LINES_IDS:
+        #     session = SessionLocal1()
+        # elif microbus.line in database_2.LINES_IDS:
+        #     session = SessionLocal2()
+        session = SessionLocal1()
         microbus = session.add(Microbus(patent=microbus.patent))
         session.commit()
         return {

@@ -2,9 +2,7 @@ from fastapi import APIRouter
 
 from . import   (
     microbus, 
-    microbusstate, 
-    # velocity,
-    # passenger            
+    microbusstate     
     )
 
 api_router = APIRouter()

@@ -7,14 +7,15 @@ Base = declarative_base()
 class Microbus(Base):
     __tablename__ = 'microbus_sensor'
     patent = Column(String, primary_key=True, nullable=False)
-    
+    # line = Column(Integer, nullable=False)
     def __repr__(self):
-        return f"<Microbus(patent={self.patent}>"
+        return f"<Microbus(patent={self.patent}, line={self.line}>"
 
 class MicrobusState(Base):
     __tablename__ = 'microbus_state'
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     patent = Column(String, ForeignKey('microbus_sensor.patent'), nullable=False)
+    # line = Column(Integer, nullable=False)
     date = Column(Date, nullable=False)
     velocity = Column(Float, nullable=False)
     passengers = Column(Integer, nullable=False)  

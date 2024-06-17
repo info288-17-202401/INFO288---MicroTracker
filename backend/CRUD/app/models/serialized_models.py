@@ -29,6 +29,7 @@ class MicrobusStateResponse(MicrobusStateSerialized):
 
 class MicrobusSerialized(BaseModel):
     patent: str
+    # line: int
     class Config:
         from_attributes = True
 

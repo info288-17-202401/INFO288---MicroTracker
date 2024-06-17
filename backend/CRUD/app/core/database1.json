@@ -1,0 +1,7 @@
+{
+    "ID":1,
+    "POSTGRES_DB":"db_sensor",
+    "POSTGRES_PORT":5432,
+    "POSTGRES_SERVER":"postgres",
+    "LINES_IDS":[1,3]
+}
