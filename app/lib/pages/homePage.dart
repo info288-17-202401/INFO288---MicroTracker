@@ -1,3 +1,5 @@
+import "package:app/api/lineQuerys.dart";
+import "package:app/models/lineModel.dart";
 import "package:app/pages/mapPage.dart";
 import "package:app/providers/microProvider.dart";
 import "package:app/widgets/microDetailPanel.dart";
@@ -20,21 +22,30 @@ class _HomePageState extends State<HomePage> {
   List<int> lines = [];
   PanelController _panelController = new PanelController();
 
+  @override
   void initState() {
     super.initState();
-    //TODO: Add totalLines to the global variable
-    //TODO: Get lines from the DB
-    setState(() {
-      lines = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    });
-    setState(() {
-      linesSelected = [lines[0]];
-    });
+    getLines();
+    // setState(() {
+    //   lines = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    // });
   }
 
   void setCurrentRoute(List<LatLng> route) {
     setState(() {
       currentRoute = route;
+    });
+  }
+
+  void getLines() async {
+    List<Line> response = await LineQuerys().getLines();
+    List<int> linesNumbers = response.map((line) => line.number).toList();
+    print(linesNumbers);
+    setState(() {
+      lines = linesNumbers;
+    });
+    setState(() {
+      linesSelected = [linesNumbers[0]];
     });
   }
 

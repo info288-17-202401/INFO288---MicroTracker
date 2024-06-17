@@ -27,7 +27,6 @@ def get_bus_stops() -> Any:
                 BusStopSerialized(
                     id=bus_stop.id,
                     coordinates=Point(x=x, y=y),
-                    id_ruta_fk=bus_stop.id_ruta_fk,
                 )
             )
         return bus_stop_serialized
@@ -52,7 +51,6 @@ def get_bus_stop(id: int) -> Any:
                 x=session.query(ST_X(bus_stop.coordinates)).scalar(),
                 y=session.query(ST_Y(bus_stop.coordinates)).scalar(),
             ),
-            id_ruta_fk=bus_stop.id_ruta_fk,
         )
         return bus_stop_serialized
     finally:

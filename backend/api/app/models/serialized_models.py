@@ -56,7 +56,6 @@ class MicrobusSerialized(BaseModel):
 
 class BusStopSerialized(BaseModel):
     id: int
-    id_ruta_fk: int
     coordinates: Point
 
     class Config:

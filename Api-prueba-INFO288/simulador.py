@@ -1,9 +1,10 @@
 import csv
 import requests
 import time
+import random
 
 # Definir la URL de la API
-api_url = "http://localhost:4000/microbusstate"  # Reemplace con la URL real de su API
+api_url = "http://localhost:4050/microbusstate"  # Reemplace con la URL real de su API
 
 # Abrir el archivo CSV
 with open("rutas_micros.csv", "r") as csvfile:
