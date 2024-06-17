@@ -11,6 +11,7 @@ CREATE EXTENSION IF NOT EXISTS postgis_tiger_geocoder;
 
 CREATE TABLE microbus_sensor (
     patent VARCHAR PRIMARY KEY
+    -- line INTEGER NOT NULL,
 );
 
 CREATE TABLE microbus_state (
