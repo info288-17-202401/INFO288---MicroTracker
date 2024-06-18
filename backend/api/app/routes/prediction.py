@@ -57,8 +57,9 @@ def get_predictions(prediction: PredictionCreate) -> Any:
         microbus_patents = {
             microbus.patent: microbus.line_id for microbus in microbuses
         }
-
+        print(microbus_patents)
         response = requests.get(URL_CRUD_MICROBUS)
+        print(response.json())
         microbus_all = [
             {**microbus, "line": microbus_patents[microbus.get("patent")]}
             for microbus in response.json()
@@ -70,6 +71,7 @@ def get_predictions(prediction: PredictionCreate) -> Any:
             current_route = (
                 session.query(Route).filter(Route.line_id == micro["line"]).first()
             )
+
         new = PredictionResponse(
             microbus_id="GGYL12",
             line_id=1,

@@ -39,7 +39,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   bool showLines = false;
   bool showPredictions = false;
   LatLng initialCenter = LatLng(-39.819955, -73.241229);
-  double initialZoom = 16;
+  double initialZoom = 18;
   List<Micro> micros = [];
   List<Prediction> predictions = [];
   List<Paradero> paraderos = [];

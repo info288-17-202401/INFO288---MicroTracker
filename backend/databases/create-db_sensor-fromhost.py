@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, declarative_base
 import requests
+
 # from core.Settings import settings
 import sys
 
@@ -28,7 +29,10 @@ if __name__ == "__main__":
             for row in micros[1:]:
                 patent, line_id, brand_id = row.split(",")
                 print("ROW: ", patent, line_id)
-                request_ = requests.post(f"localhost:4050/microbus/", json={"patent":patent, "line":line_id})
+                request_ = requests.post(
+                    f"http://localhost:4050/microbus/",
+                    json={"patent": patent, "line": line_id},
+                )
                 print(request_)
     except Exception as e:
         print(e)

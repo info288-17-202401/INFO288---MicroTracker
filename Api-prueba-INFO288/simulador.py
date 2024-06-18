@@ -26,7 +26,7 @@ with open("rutas_micros.csv", "r") as csvfile:
             "coordinates": {"x": x, "y": y},
             "velocity": 50,
             "passengers": 25,
-            # "line": 1,
+            "line": 1,
         }
 
         # Enviar la petición POST a la API
