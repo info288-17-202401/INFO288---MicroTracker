@@ -4,7 +4,7 @@ RUN pip install --no-cache-dir --upgrade -r app/requirements.txt
 
 
 WORKDIR /app
-EXPOSE 4000
+# EXPOSE 4000
 # Guarda la salida de pip freeze en un archivo
 # RUN pip freeze > installed_packages.txt
 # Muestra el contenido del archivo installed_packages.txt
