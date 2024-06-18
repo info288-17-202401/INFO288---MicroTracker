@@ -86,3 +86,11 @@ class RouteBusStopSerialized(BaseModel):
 
     class Config:
         from_attributes = True
+
+class RouteSerialized(BaseModel):
+    id: int
+    route: List[Point]
+    line_id: int
+
+    class Config:
+        from_attributes = True
