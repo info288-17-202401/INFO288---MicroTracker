@@ -39,7 +39,7 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
   bool showLines = false;
   bool showPredictions = false;
   LatLng initialCenter = LatLng(-39.819955, -73.241229);
-  double initialZoom = 18;
+  double initialZoom = 16;
   List<Micro> micros = [];
   List<Prediction> predictions = [];
   List<Paradero> paraderos = [];
@@ -156,6 +156,24 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
               )
             ]),
             MarkerLayer(markers: [
+              for (final paradero in paraderos)
+                _animatedMapController.mapController.camera.zoom >= 14
+                    ? Marker(
+                        width: 30.0,
+                        height: 30.0,
+                        point: paradero.position,
+                        key: Key(paradero.id.toString()),
+                        child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                showPredictions = true;
+                              });
+                              getPredictions(paradero.id);
+                              print("Paradero ${paradero.id} clicked");
+                              print('ENV: ${dotenv.env['API_URL']}');
+                            },
+                            child: Image.asset("assets/paradero.png")))
+                    : Marker(point: paradero.position, child: Container()),
               for (final micro in micros)
                 Marker(
                     width: 80.0,
@@ -171,22 +189,6 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                       },
                       child: Image.asset("assets/${micro.line}.png"),
                     )),
-              for (final paradero in paraderos)
-                Marker(
-                    width: 30.0,
-                    height: 30.0,
-                    point: paradero.position,
-                    key: Key(paradero.id.toString()),
-                    child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            showPredictions = true;
-                          });
-                          getPredictions(paradero.id);
-                          print("Paradero ${paradero.id} clicked");
-                          print('ENV: ${dotenv.env['API_URL']}');
-                        },
-                        child: Image.asset("assets/paradero.png"))),
               _currentPosition == null
                   ? Marker(
                       point: initialCenter,
