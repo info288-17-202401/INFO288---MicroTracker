@@ -11,8 +11,7 @@ class UbicationQuerys {
   }
 
   Future<Route> getMicroRoute(String id) async {
-    final response = await dio
-        .get("https://6633fb4f9bb0df2359a075b6.mockapi.io/api/routes/$id");
+    final response = await dio.get('${dotenv.env['API_URL']}/route/$id');
     print(response.data);
     return Route.fromJson(response.data);
   }
