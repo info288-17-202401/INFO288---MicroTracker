@@ -165,10 +165,10 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                         key: Key(paradero.id.toString()),
                         child: GestureDetector(
                             onTap: () {
+                              getPredictions(paradero.id);
                               setState(() {
                                 showPredictions = true;
                               });
-                              getPredictions(paradero.id);
                               print("Paradero ${paradero.id} clicked");
                               print('ENV: ${dotenv.env['API_URL']}');
                             },
@@ -248,6 +248,11 @@ class _MapPageState extends State<MapPage> with TickerProviderStateMixin {
                     onClick: () {
                       _animatedMapController.animateTo(
                           dest: _currentPosition!, zoom: initialZoom);
+                    }),
+                MapButton(
+                    icon: Icon(Icons.delete),
+                    onClick: () {
+                      widget.route.clear();
                     })
               ],
             ))
