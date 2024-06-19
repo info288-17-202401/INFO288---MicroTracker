@@ -51,7 +51,7 @@ def procesar_csv(archivo_csv, patent, line):
                 )
 
             # Esperar 1 segundo antes de la siguiente petición
-            time.sleep(1)
+            time.sleep(5)
 
 
 # Lista de archivos CSV y patentes correspondientes

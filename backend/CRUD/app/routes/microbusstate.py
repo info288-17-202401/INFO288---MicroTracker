@@ -29,11 +29,14 @@ logger = logging.getLogger(__name__)
 """
 NO SE USARA
 """
+
+
 @router.get("/", response_model=List[MicrobusStateResponse], status_code=200)
 def get_microbus_states(patent: str | None = Query(None)) -> Any:
     """
     Retrieve items.
     """
+    microbus_states_serialized = []
     for session in sessions:
         try:
             session = session()
@@ -48,10 +51,10 @@ def get_microbus_states(patent: str | None = Query(None)) -> Any:
             logger.debug(f"MicrobusState: {microbus_states}")
             if not microbus_states:
                 logger.debug(f"MicrobusState not found")
-                raise HTTPException(status_code=404, detail="Items not found")
+                pass
+                # raise HTTPException(status_code=404, detail="Items not found")
             # logger.debug(f"---------")
             # Serializar los objetos MicrobusState a MicrobusStateSerialized
-            microbus_states_serialized = []
             for state in microbus_states:
                 logger.debug(f"State: {state}")
                 coordinates = to_shape(state.coordinates)
@@ -66,12 +69,12 @@ def get_microbus_states(patent: str | None = Query(None)) -> Any:
                 )
                 microbus_states_serialized.append(state_serialized)
             logger.debug(f"MicrobusState serialized: {microbus_states_serialized}")
-            return microbus_states_serialized
         except Exception as e:
             logger.error(f"Error: {e}")
-            raise HTTPException(status_code=500, detail=f"Internal error:\n {str(e)}")
+            # raise HTTPException(status_code=500, detail=f"Internal error:\n {str(e)}")
         finally:
             session.close()
+    return microbus_states_serialized
 
 
 

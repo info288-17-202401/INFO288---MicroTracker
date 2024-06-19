@@ -7,9 +7,9 @@ services:
       dockerfile: Dockerfile.nginx
     restart: always
     ports:
-      - "4050:4050"
-    # volumes:
-    #   - .:.
+      - "4050:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
     networks:
       - connection_dockers
       - connection_loadbalancer
