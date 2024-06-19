@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 from os import getenv
 from random import randint
+
 # Definir la URL de la API
 load_dotenv()
 try:
@@ -14,7 +15,7 @@ except Exception as e:
     print("Error al cargar las variables de entorno")
     LOADBALANCER_HOST = "loadbalancer"
     LOADBALANCER_PORT = 4050
-    
+
 api_url = f"http://{LOADBALANCER_HOST}:{LOADBALANCER_PORT}/microbusstate"  # Reemplace con la URL real de su API
 
 
@@ -32,8 +33,8 @@ def procesar_csv(archivo_csv, patent, line):
                 "date": "2023-11-21",
                 "currently": True,
                 "coordinates": {"x": x, "y": y},
-                "velocity": randint(1,80),
-                "passengers": randint(1,30),
+                "velocity": randint(1, 80),
+                "passengers": randint(1, 30),
                 "line": line,
             }
 
@@ -58,6 +59,7 @@ def procesar_csv(archivo_csv, patent, line):
 archivos_csv = [
     ("rutas_micro1.csv", "A8G3DE", 3),
     ("rutas_micro2.csv", "3AN9BM", 1),
+    ("rutas_micro3.csv", "RM3J2V", 4),
 ]
 
 # Usar ThreadPoolExecutor para procesar cada archivo CSV simultáneamente
