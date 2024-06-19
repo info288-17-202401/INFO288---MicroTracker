@@ -124,6 +124,14 @@ def get_predictions(prediction: PredictionCreate) -> Any:
         #     time=12.0,
         #     distance=1.0,
         # )
+
+        x1 = ()
+        y1 = ()
+        x2 = ()
+        y2 = ()
+        test_point_1 = func.ST_SetSRID(geofunc.ST_MakePoint(x1, y1), 4326)
+        test_point_2 = func.ST_SetSRID(geofunc.ST_MakePoint(x2, y2), 4326)
+        distance = session.query(func.ST_Distance(test_point_1, test_point_2)).scalar()
         return predictions
     except Exception as e:
         raise HTTPException(
