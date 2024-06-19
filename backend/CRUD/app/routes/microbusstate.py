@@ -29,8 +29,6 @@ logger = logging.getLogger(__name__)
 """
 NO SE USARA
 """
-
-
 @router.get("/", response_model=List[MicrobusStateResponse], status_code=200)
 def get_microbus_states(patent: str | None = Query(None)) -> Any:
     """
@@ -38,6 +36,7 @@ def get_microbus_states(patent: str | None = Query(None)) -> Any:
     """
     for session in sessions:
         try:
+            session = session()
             if patent:
                 microbus_states = (
                     session.query(MicrobusState)

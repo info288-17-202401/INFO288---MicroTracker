@@ -28,7 +28,7 @@ except Exception as e:
 from sqlalchemy import create_engine, func
 
 DATABASE_URL = str(
-    SQLALCHEMY_DATABASE_URL("postgres", "postgres", "localhost", 5432, "db_linea")
+    SQLALCHEMY_DATABASE_URL("postgres", "postgres", "localhost", 5433, "db_linea")
 )
 # engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URL))
 engine = create_engine(DATABASE_URL)

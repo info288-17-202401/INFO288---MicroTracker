@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   postgres:
     container_name: postgres
@@ -16,6 +15,21 @@ services:
     networks:
       - default
       - connection_dockers
+  postgres2:
+    container_name: postgres2
+    build:
+      context: .
+      dockerfile: Dockerfile-linea.db
+    restart: always
+    expose:
+      - "5433"
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env
+    networks:
+      - default
+      - connection_dockers
   pgadmin:
     image: dpage/pgadmin4
     restart: always  
@@ -26,6 +40,7 @@ services:
       - "8000:80"
     depends_on:
       - postgres
+      - postgres2
 networks:
   default:
     driver: bridge

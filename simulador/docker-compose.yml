@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/app
     networks:
-      - connection_dockers
+      - connection_loadbalancer
 networks:
-  connection_dockers:
+  connection_loadbalancer:
     external: true

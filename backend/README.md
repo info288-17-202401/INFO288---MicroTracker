@@ -4,6 +4,7 @@
 
 ```
 docker network create --attachable connection_dockers
+docker network create --attachable connection_loadbalancer
 ```
 
 Para saber si se crea la network usar

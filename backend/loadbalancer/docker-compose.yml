@@ -12,6 +12,9 @@ services:
     #   - .:.
     networks:
       - connection_dockers
+      - connection_loadbalancer
 networks:
   connection_dockers:
+    external: true
+  connection_loadbalancer:
     external: true

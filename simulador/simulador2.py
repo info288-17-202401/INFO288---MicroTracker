@@ -38,6 +38,7 @@ def procesar_csv(archivo_csv, patent, line):
             }
 
             # Enviar la petición POST a la API
+            print(f"Request to {api_url}")
             response = requests.post(api_url, json=data)
             # Verificar el estado de la respuesta
             if response.status_code == 201:
