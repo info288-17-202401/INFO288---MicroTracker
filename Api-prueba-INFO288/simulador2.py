@@ -2,9 +2,19 @@ import csv
 import requests
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
+from dotenv import load_dotenv
+from os import getenv
 # Definir la URL de la API
-api_url = "http://localhost:4050/microbusstate"  # Reemplace con la URL real de su API
+load_dotenv()
+try:
+    LOADBALANCER_HOST = str(getenv("LOADBALANCER_HOST"))
+    LOADBALANCER_PORT = int(getenv("LOADBALANCER_PORT"))
+except Exception as e:
+    print("Error al cargar las variables de entorno")
+    LOADBALANCER_HOST = "localhost"
+    LOADBALANCER_PORT = 4050
+    
+api_url = f"http://{LOADBALANCER_HOST}:{LOADBALANCER_PORT}/microbusstate"  # Reemplace con la URL real de su API
 
 
 # Definir la función que procesará un archivo CSV y enviará peticiones
@@ -28,7 +38,8 @@ def procesar_csv(archivo_csv, patent, line):
 
             # Enviar la petición POST a la API
             response = requests.post(api_url, json=data)
-
+            print(f"Petición para patente {patent} enviada.")
+            print(f"RESPONSE:{response.json()}")
             # Verificar el estado de la respuesta
             if response.status_code == 201:
                 print(f"Petición para patente {patent} enviada con éxito.")
