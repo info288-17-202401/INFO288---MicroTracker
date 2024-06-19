@@ -4,6 +4,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 from os import getenv
+from random import randint
 # Definir la URL de la API
 load_dotenv()
 try:
@@ -11,7 +12,7 @@ try:
     LOADBALANCER_PORT = int(getenv("LOADBALANCER_PORT"))
 except Exception as e:
     print("Error al cargar las variables de entorno")
-    LOADBALANCER_HOST = "localhost"
+    LOADBALANCER_HOST = "loadbalancer"
     LOADBALANCER_PORT = 4050
     
 api_url = f"http://{LOADBALANCER_HOST}:{LOADBALANCER_PORT}/microbusstate"  # Reemplace con la URL real de su API
@@ -31,18 +32,18 @@ def procesar_csv(archivo_csv, patent, line):
                 "date": "2023-11-21",
                 "currently": True,
                 "coordinates": {"x": x, "y": y},
-                "velocity": 50,
-                "passengers": 25,
+                "velocity": randint(1,80),
+                "passengers": randint(1,30),
                 "line": line,
             }
 
             # Enviar la petición POST a la API
             response = requests.post(api_url, json=data)
-            print(f"Petición para patente {patent} enviada.")
-            print(f"RESPONSE:{response.json()}")
             # Verificar el estado de la respuesta
             if response.status_code == 201:
                 print(f"Petición para patente {patent} enviada con éxito.")
+                print(f"RESPONSE:{response.json()}")
+
             else:
                 print(
                     f"Error al enviar petición para patente {patent}: {response.status_code}"
