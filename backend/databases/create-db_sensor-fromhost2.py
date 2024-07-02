@@ -68,7 +68,7 @@ if __name__ == "__main__":
             micros = file.readlines()
             for row in micros[1:]:
                 patent, line_id, brand_id = row.split(",")
-                micro = MicrobusSensor(patent=patent)
+                micro = MicrobusSensor(patent=patent, line=line_id)
                 addToDB(micro, queryID(micro, "patent"))
         micro = session.query(MicrobusSensor).all()
         print(micro)
