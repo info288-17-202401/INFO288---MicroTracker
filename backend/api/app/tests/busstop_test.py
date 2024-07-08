@@ -25,7 +25,7 @@ def test_get_bus_stops():
 
     # Ejecutar la solicitud GET a la ruta de la API
     response = requests.get(f"{URL_API}/busstop/")
-    
+    bus_stops = response.json()
     # Verificar el código de estado de la respuesta
     assert response.status_code == 200
     
