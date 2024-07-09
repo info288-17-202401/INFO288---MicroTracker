@@ -26,11 +26,10 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Importar el módulo Point de pydantic
+
 """
 NO SE USARA
 """
-
-
 @router.get("/", response_model=List[MicrobusStateResponse], status_code=200)
 def get_microbus_states(patent: str | None = Query(None)) -> Any:
     """
@@ -75,7 +74,6 @@ def get_microbus_states(patent: str | None = Query(None)) -> Any:
         finally:
             session.close()
     return microbus_states_serialized
-
 
 
 # TO DO:Cambiar
